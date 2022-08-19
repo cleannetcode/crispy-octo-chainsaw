@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32811.315
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrispyOctoChainsaw.API", "CrispyOctoChainsaw.API\CrispyOctoChainsaw.API.csproj", "{F94293AC-5D4E-44C0-9B9F-37DE770612E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrispyOctoChainsaw.BusinessLogic", "CrispyOctoChainsaw.BusinessLogic\CrispyOctoChainsaw.BusinessLogic.csproj", "{B35B2F32-A51B-4CB4-820F-A0EAB8029220}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrispyOctoChainsaw.DataAccess.Postgre", "CrispyOctoChainsaw.DataAccess.Postgre\CrispyOctoChainsaw.DataAccess.Postgre.csproj", "{368933FD-D62A-49AD-8039-338D5D0AE081}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrispyOctoChainsaw.Domain", "CrispyOctoChainsaw.Domain\CrispyOctoChainsaw.Domain.csproj", "{5860FF76-53C5-42B0-AEE0-DD702B97B9A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrispyOctoChainsaw.IntegrationalTests", "CrispyOctoChainsaw.IntegrationalTests\CrispyOctoChainsaw.IntegrationalTests.csproj", "{F1F68B09-5E90-40BE-8E62-09633412CC51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrispyOctoChainsaw.UnitTests", "CrispyOctoChainsaw.UnitTests\CrispyOctoChainsaw.UnitTests.csproj", "{055CB7E1-0860-439C-979E-CDA623FA8FF2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F94293AC-5D4E-44C0-9B9F-37DE770612E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F94293AC-5D4E-44C0-9B9F-37DE770612E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F94293AC-5D4E-44C0-9B9F-37DE770612E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F94293AC-5D4E-44C0-9B9F-37DE770612E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B35B2F32-A51B-4CB4-820F-A0EAB8029220}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B35B2F32-A51B-4CB4-820F-A0EAB8029220}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B35B2F32-A51B-4CB4-820F-A0EAB8029220}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B35B2F32-A51B-4CB4-820F-A0EAB8029220}.Release|Any CPU.Build.0 = Release|Any CPU
+		{368933FD-D62A-49AD-8039-338D5D0AE081}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{368933FD-D62A-49AD-8039-338D5D0AE081}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{368933FD-D62A-49AD-8039-338D5D0AE081}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{368933FD-D62A-49AD-8039-338D5D0AE081}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5860FF76-53C5-42B0-AEE0-DD702B97B9A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5860FF76-53C5-42B0-AEE0-DD702B97B9A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5860FF76-53C5-42B0-AEE0-DD702B97B9A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5860FF76-53C5-42B0-AEE0-DD702B97B9A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1F68B09-5E90-40BE-8E62-09633412CC51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1F68B09-5E90-40BE-8E62-09633412CC51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1F68B09-5E90-40BE-8E62-09633412CC51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1F68B09-5E90-40BE-8E62-09633412CC51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{055CB7E1-0860-439C-979E-CDA623FA8FF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{055CB7E1-0860-439C-979E-CDA623FA8FF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{055CB7E1-0860-439C-979E-CDA623FA8FF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{055CB7E1-0860-439C-979E-CDA623FA8FF2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F6BA1EFA-D520-4756-AFD6-FDCDFEA82CBB}
+	EndGlobalSection
+EndGlobal
