@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  crispyoctochainsaw.api:
+    image: ${DOCKER_REGISTRY-}crispyoctochainsawapi
+    build:
+      context: .
+      dockerfile: CrispyOctoChainsaw.API/Dockerfile
+
+  db:
+    container_name: postgres_db
+    image: postgres:latest
+    volumes:
+        - db-data:/var/lib/postgresql/data
+    restart: always
+    environment:
+        - POSTGRES_PASSWORD=pwd
+    ports:
+        - 5433:5432
+
+volumes: 
+  db-data:
+    driver: local
