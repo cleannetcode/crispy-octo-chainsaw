@@ -6,15 +6,23 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>f73d3fba-4199-47f9-b676-105d7a9142c9</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.6" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\CrispyOctoChainsaw.BusinessLogic\CrispyOctoChainsaw.BusinessLogic.csproj" />
+    <ProjectReference Include="..\CrispyOctoChainsaw.DataAccess.Postgre\CrispyOctoChainsaw.DataAccess.Postgre.csproj" />
   </ItemGroup>
 
 </Project>
