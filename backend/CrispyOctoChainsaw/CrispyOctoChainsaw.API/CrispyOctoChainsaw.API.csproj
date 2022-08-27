@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CrispyOctoChainsaw.BusinessLogic\CrispyOctoChainsaw.BusinessLogic.csproj" />
-    <ProjectReference Include="..\CrispyOctoChainsaw.DataAccess.Postgre\CrispyOctoChainsaw.DataAccess.Postgre.csproj" />
+    <ProjectReference Include="..\CrispyOctoChainsaw.DataAccess.Postgres\CrispyOctoChainsaw.DataAccess.Postgres.csproj" />
   </ItemGroup>
 
 </Project>

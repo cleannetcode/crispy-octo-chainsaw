@@ -1,6 +1,6 @@
 using CrispyOctoChainsaw.API;
 using CrispyOctoChainsaw.BusinessLogic;
-using CrispyOctoChainsaw.DataAccess.Postgre;
+using CrispyOctoChainsaw.DataAccess.Postgres;
 using CrispyOctoChainsaw.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

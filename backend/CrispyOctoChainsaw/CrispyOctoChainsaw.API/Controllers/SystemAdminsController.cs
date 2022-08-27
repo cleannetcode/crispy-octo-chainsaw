@@ -8,16 +8,16 @@ namespace CrispyOctoChainsaw.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SystemAdminController : ControllerBase
+    public class SystemAdminsController : ControllerBase
     {
         private readonly ISystemAdminService _systemAdminService;
         private readonly IMapper _mapper;
-        private readonly ILogger<SystemAdminController> _logger;
+        private readonly ILogger<SystemAdminsController> _logger;
 
-        public SystemAdminController(
+        public SystemAdminsController(
             ISystemAdminService systemAdminService,
             IMapper mapper,
-            ILogger<SystemAdminController> logger)
+            ILogger<SystemAdminsController> logger)
         {
             _systemAdminService = systemAdminService;
             _mapper = mapper;   

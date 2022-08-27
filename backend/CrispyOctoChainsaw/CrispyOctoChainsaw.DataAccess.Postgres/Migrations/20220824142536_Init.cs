@@ -3,7 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace CrispyOctoChainsaw.DataAccess.Postgre.Migrations
+namespace CrispyOctoChainsaw.DataAccess.Postgres.Migrations
 {
     public partial class Init : Migration
     {

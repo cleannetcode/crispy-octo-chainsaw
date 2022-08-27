@@ -4,7 +4,7 @@ using CrispyOctoChainsaw.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace CrispyOctoChainsaw.DataAccess.Postgre
+namespace CrispyOctoChainsaw.DataAccess.Postgres
 {
     public class UsersRepository : IUsersRepository
     {
