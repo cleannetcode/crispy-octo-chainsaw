@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace CrispyOctoChainsaw.DataAccess.Postgre.Migrations
+namespace CrispyOctoChainsaw.DataAccess.Postgres.Migrations
 {
     public partial class AddSytemAdmin : Migration
     {

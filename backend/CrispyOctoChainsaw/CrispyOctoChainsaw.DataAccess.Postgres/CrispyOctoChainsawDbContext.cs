@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace CrispyOctoChainsaw.DataAccess.Postgre
+namespace CrispyOctoChainsaw.DataAccess.Postgres
 {
     public class CrispyOctoChainsawDbContext : IdentityDbContext
     {

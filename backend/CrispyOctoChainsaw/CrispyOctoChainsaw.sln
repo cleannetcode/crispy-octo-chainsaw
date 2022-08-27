@@ -10,7 +10,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrispyOctoChainsaw.API", "C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrispyOctoChainsaw.BusinessLogic", "CrispyOctoChainsaw.BusinessLogic\CrispyOctoChainsaw.BusinessLogic.csproj", "{B35B2F32-A51B-4CB4-820F-A0EAB8029220}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrispyOctoChainsaw.DataAccess.Postgre", "CrispyOctoChainsaw.DataAccess.Postgre\CrispyOctoChainsaw.DataAccess.Postgre.csproj", "{368933FD-D62A-49AD-8039-338D5D0AE081}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrispyOctoChainsaw.DataAccess.Postgres", "CrispyOctoChainsaw.DataAccess.Postgres\CrispyOctoChainsaw.DataAccess.Postgres.csproj", "{368933FD-D62A-49AD-8039-338D5D0AE081}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrispyOctoChainsaw.Domain", "CrispyOctoChainsaw.Domain\CrispyOctoChainsaw.Domain.csproj", "{5860FF76-53C5-42B0-AEE0-DD702B97B9A9}"
 EndProject
