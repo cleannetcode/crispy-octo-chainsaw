@@ -22,6 +22,11 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrispyOctoChainsaw.Migrator", "CrispyOctoChainsaw.Migrator\CrispyOctoChainsaw.Migrator.csproj", "{DF5809D1-5CE1-4F11-BE17-4B5B6E378BCE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution item", "Solution item", "{CA4B5E3D-B595-4260-9941-E3BBAEEFBD01}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

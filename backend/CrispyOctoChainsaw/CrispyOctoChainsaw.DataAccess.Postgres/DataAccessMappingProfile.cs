@@ -9,6 +9,7 @@ namespace CrispyOctoChainsaw.DataAccess.Postgres
         public DataAccessMappingProfile()
         {
             CreateMap<UserEntity, User>().ReverseMap();
+            CreateMap<CourseEntity, Course>().ReverseMap();
         }
     }
 }
