@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddScoped<ICourseAdminService, CourseAdminService>();
+builder.Services.AddScoped<ICourseAdminRepository, CourseAdminRepository>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

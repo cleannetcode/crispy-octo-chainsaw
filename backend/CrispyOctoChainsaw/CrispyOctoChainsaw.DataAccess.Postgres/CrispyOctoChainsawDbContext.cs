@@ -5,12 +5,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CrispyOctoChainsaw.DataAccess.Postgres
 {
-    public class CrispyOctoChainsawDbContext 
+    public class CrispyOctoChainsawDbContext
         : IdentityDbContext<UserEntity, IdentityRole<Guid>, Guid>
     {
         public CrispyOctoChainsawDbContext(DbContextOptions<CrispyOctoChainsawDbContext> options)
             : base(options)
         {
+        }
+
+        public DbSet<CourseEntity> Courses { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.ApplyConfigurationsFromAssembly(typeof(CrispyOctoChainsawDbContext).Assembly);
+            this.OnModelCreating(builder);
         }
     }
 }

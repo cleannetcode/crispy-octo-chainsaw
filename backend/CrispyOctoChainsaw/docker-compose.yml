@@ -6,6 +6,7 @@ services:
     build:
       context: .
       dockerfile: CrispyOctoChainsaw.API/Dockerfile
+    container_name: api
 
   db:
     container_name: db
