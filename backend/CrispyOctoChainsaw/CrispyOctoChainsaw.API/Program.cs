@@ -1,8 +1,9 @@
 using CrispyOctoChainsaw.API;
 using CrispyOctoChainsaw.BusinessLogic;
 using CrispyOctoChainsaw.DataAccess.Postgres;
+using CrispyOctoChainsaw.DataAccess.Postgres.Entities;
+using CrispyOctoChainsaw.DataAccess.Postgres.Repositories;
 using CrispyOctoChainsaw.Domain.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,7 +18,7 @@ builder.Services.AddDbContext<CrispyOctoChainsawDbContext>(options =>
 });
 
 builder.Services
-    .AddIdentityCore<IdentityUser>()
+    .AddIdentityCore<UserEntity>()
     .AddEntityFrameworkStores<CrispyOctoChainsawDbContext>();
 
 builder.Services.AddAutoMapper(config =>
@@ -28,7 +29,7 @@ builder.Services.AddAutoMapper(config =>
 
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 
-builder.Services.AddScoped<ISystemAdminService, SystemAdminService>();
+builder.Services.AddScoped<ISystemAdminsService, SystemAdminsService>();
 
 var app = builder.Build();
 

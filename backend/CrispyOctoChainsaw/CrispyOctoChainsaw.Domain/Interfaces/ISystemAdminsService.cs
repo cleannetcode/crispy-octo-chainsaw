@@ -2,12 +2,12 @@
 
 namespace CrispyOctoChainsaw.Domain.Interfaces
 {
-    public interface ISystemAdminService
+    public interface ISystemAdminsService
     {
-        Task<Result> Delete(string id);
+        Task<Result> Delete(Guid id);
 
         Task<User[]> Get();
 
-        Task<Result<User>> Get(string id);
+        Task<Result<User>> Get(Guid id);
     }
 }

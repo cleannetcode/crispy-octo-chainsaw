@@ -6,16 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CrispyOctoChainsaw.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class SystemAdminsController : ControllerBase
+    public class SystemAdminsController : BaseController
     {
-        private readonly ISystemAdminService _systemAdminService;
+        private readonly ISystemAdminsService _systemAdminService;
         private readonly IMapper _mapper;
         private readonly ILogger<SystemAdminsController> _logger;
 
         public SystemAdminsController(
-            ISystemAdminService systemAdminService,
+            ISystemAdminsService systemAdminService,
             IMapper mapper,
             ILogger<SystemAdminsController> logger)
         {
@@ -34,8 +32,8 @@ namespace CrispyOctoChainsaw.API.Controllers
             return Ok(response);
         }
 
-        [HttpGet("{userId:int}")]
-        public async Task<IActionResult> Get(string id)
+        [HttpGet("{userId:Guid}")]
+        public async Task<IActionResult> Get(Guid id)
         {
             var user = await _systemAdminService.Get(id);
 
@@ -50,8 +48,8 @@ namespace CrispyOctoChainsaw.API.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("{userId:int}")]
-        public async Task<IActionResult> Delete(string id)
+        [HttpDelete("{userId:Guid}")]
+        public async Task<IActionResult> Delete(Guid id)
         {
             var response = await _systemAdminService.Delete(id);
 

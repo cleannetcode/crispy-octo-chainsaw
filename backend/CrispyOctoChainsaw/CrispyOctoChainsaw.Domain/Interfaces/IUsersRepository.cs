@@ -2,10 +2,10 @@
 {
     public interface IUsersRepository
     {
-        Task<bool> Delete(string id);
+        Task<bool> Delete(Guid id);
 
         Task<User[]> Get();
 
-        Task<User?> Get(string id);
+        Task<User?> Get(Guid id);
     }
 }

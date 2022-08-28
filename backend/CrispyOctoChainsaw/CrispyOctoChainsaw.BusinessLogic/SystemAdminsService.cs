@@ -4,11 +4,11 @@ using CSharpFunctionalExtensions;
 
 namespace CrispyOctoChainsaw.BusinessLogic
 {
-    public class SystemAdminService : ISystemAdminService
+    public class SystemAdminsService : ISystemAdminsService
     {
         private readonly IUsersRepository _usersRepository;
 
-        public SystemAdminService(IUsersRepository usersRepository)
+        public SystemAdminsService(IUsersRepository usersRepository)
         {
             _usersRepository = usersRepository;
         }
@@ -18,7 +18,7 @@ namespace CrispyOctoChainsaw.BusinessLogic
             return await _usersRepository.Get();
         }
 
-        public async Task<Result<User>> Get(string id)
+        public async Task<Result<User>> Get(Guid id)
         {
             var user = await _usersRepository.Get(id);
 
@@ -30,7 +30,7 @@ namespace CrispyOctoChainsaw.BusinessLogic
             return user;
         }
 
-        public async Task<Result> Delete(string id)
+        public async Task<Result> Delete(Guid id)
         {
             var result = await _usersRepository.Delete(id);
 
