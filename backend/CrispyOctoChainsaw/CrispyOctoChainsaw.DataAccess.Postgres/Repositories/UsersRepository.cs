@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
+using CrispyOctoChainsaw.DataAccess.Postgres.Entities;
 using CrispyOctoChainsaw.Domain;
 using CrispyOctoChainsaw.Domain.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace CrispyOctoChainsaw.DataAccess.Postgres
+namespace CrispyOctoChainsaw.DataAccess.Postgres.Repositories
 {
     public class UsersRepository : IUsersRepository
     {
@@ -23,11 +23,11 @@ namespace CrispyOctoChainsaw.DataAccess.Postgres
                 .AsNoTracking()
                 .ToArrayAsync();
 
-            var users = _mapper.Map<IdentityUser[], User[]>(usersEntities);
+            var users = _mapper.Map<UserEntity[], User[]>(usersEntities);
             return users;
         }
 
-        public async Task<User?> Get(string id)
+        public async Task<User?> Get(Guid id)
         {
             var userEntity = await _context.Users
                 .AsNoTracking()
@@ -38,11 +38,11 @@ namespace CrispyOctoChainsaw.DataAccess.Postgres
                 return null;
             }
 
-            var user = _mapper.Map<IdentityUser, User>(userEntity);
+            var user = _mapper.Map<UserEntity, User>(userEntity);
             return user;
         }
 
-        public async Task<bool> Delete(string id)
+        public async Task<bool> Delete(Guid id)
         {
             var userToDelete = await _context.Users
                 .AsNoTracking()

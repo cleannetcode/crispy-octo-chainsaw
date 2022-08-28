@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using CrispyOctoChainsaw.DataAccess.Postgres.Entities;
 using CrispyOctoChainsaw.Domain;
-using Microsoft.AspNetCore.Identity;
 
 namespace CrispyOctoChainsaw.DataAccess.Postgres
 {
@@ -8,7 +8,7 @@ namespace CrispyOctoChainsaw.DataAccess.Postgres
     {
         public DataAccessMappingProfile()
         {
-            CreateMap<IdentityUser, User>().ReverseMap();
+            CreateMap<UserEntity, User>().ReverseMap();
         }
     }
 }
