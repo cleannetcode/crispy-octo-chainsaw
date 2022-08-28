@@ -4,6 +4,7 @@ using CrispyOctoChainsaw.DataAccess.Postgres;
 using CrispyOctoChainsaw.DataAccess.Postgres.Entities;
 using CrispyOctoChainsaw.DataAccess.Postgres.Repositories;
 using CrispyOctoChainsaw.Domain.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,7 @@ builder.Services.AddDbContext<CrispyOctoChainsawDbContext>(options =>
 
 builder.Services
     .AddIdentityCore<UserEntity>()
+    .AddRoles<IdentityRole<Guid>>()
     .AddEntityFrameworkStores<CrispyOctoChainsawDbContext>();
 
 builder.Services.AddAutoMapper(config =>

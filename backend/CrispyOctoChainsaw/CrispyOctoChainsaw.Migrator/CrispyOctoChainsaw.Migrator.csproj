@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>77fc3c8a-f431-4855-b24b-4c01cd7286ba</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CrispyOctoChainsaw.DataAccess.Postgres\CrispyOctoChainsaw.DataAccess.Postgres.csproj" />
+  </ItemGroup>
+
+</Project>

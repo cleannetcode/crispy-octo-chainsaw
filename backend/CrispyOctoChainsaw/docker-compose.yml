@@ -8,7 +8,7 @@ services:
       dockerfile: CrispyOctoChainsaw.API/Dockerfile
 
   db:
-    container_name: postgres_db
+    container_name: db
     image: postgres:latest
     volumes:
         - db-data:/var/lib/postgresql/data
