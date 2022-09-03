@@ -1,11 +1,11 @@
 ﻿namespace CrispyOctoChainsaw.Domain.Model
 {
-    public enum Status
+    public enum MemberExerciseStatus
     {
         InProgress,
-        Done,
-        RepositoryDeleted,
         InReview,
-        BranchDeleted
+        Done,
+        BranchDeleted,
+        RepositoryDeleted,
     }
 }
