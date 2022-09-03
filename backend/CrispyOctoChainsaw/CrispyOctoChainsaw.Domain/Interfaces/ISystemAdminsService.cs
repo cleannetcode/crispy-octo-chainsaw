@@ -1,4 +1,5 @@
-﻿using CSharpFunctionalExtensions;
+﻿using CrispyOctoChainsaw.Domain.Model;
+using CSharpFunctionalExtensions;
 
 namespace CrispyOctoChainsaw.Domain.Interfaces
 {

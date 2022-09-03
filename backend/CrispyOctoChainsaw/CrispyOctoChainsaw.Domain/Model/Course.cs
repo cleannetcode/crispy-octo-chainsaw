@@ -13,7 +13,7 @@ namespace CrispyOctoChainsaw.Domain.Model
 
         public IEnumerable<Exercise> Exercises { get; set; }
 
-        public Course(long id, string title, string description)
+        private Course(long id, string title, string description)
         {
             Id = id;
             Title = title;
