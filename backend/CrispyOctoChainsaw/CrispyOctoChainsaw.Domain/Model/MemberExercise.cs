@@ -10,6 +10,6 @@
 
         public string? BranchLink { get; }
 
-        public Status Status { get; }
+        public MemberExerciseStatus ExerciseStatus { get; }
     }
 }

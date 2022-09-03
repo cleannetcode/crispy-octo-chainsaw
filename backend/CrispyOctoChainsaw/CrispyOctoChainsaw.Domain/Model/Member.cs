@@ -8,6 +8,6 @@
 
         public string? RepositoryLink { get; }
 
-        public Status Status { get; }
+        public MemberStatus MemberStatus { get; }
     }
 }
