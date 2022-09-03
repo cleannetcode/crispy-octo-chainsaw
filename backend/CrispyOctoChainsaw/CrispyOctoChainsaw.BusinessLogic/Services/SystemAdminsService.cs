@@ -2,7 +2,7 @@
 using CrispyOctoChainsaw.Domain.Interfaces;
 using CSharpFunctionalExtensions;
 
-namespace CrispyOctoChainsaw.BusinessLogic
+namespace CrispyOctoChainsaw.BusinessLogic.Services
 {
     public class SystemAdminsService : ISystemAdminsService
     {
