@@ -32,8 +32,9 @@ builder.Services.AddAutoMapper(config =>
 });
 
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
-builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<ICoursesRepository, CourseRepository>();
 builder.Services.AddScoped<ISystemAdminsService, SystemAdminsService>();
+builder.Services.AddScoped<ICoursesService, CoursesService>();
 
 var app = builder.Build();
 

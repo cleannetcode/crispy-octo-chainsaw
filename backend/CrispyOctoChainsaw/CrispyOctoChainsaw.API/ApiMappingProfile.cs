@@ -9,6 +9,7 @@ namespace CrispyOctoChainsaw.API
         public ApiMappingProfile()
         {
             CreateMap<User, GetUserResponse>();
+            CreateMap<Course, GetCourseResponse>();
         }
     }
 }
