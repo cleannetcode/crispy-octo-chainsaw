@@ -8,7 +8,7 @@ namespace CrispyOctoChainsaw.Domain.Model
         public const int MaxDescriptionsLength = 1500;
         public const int MaxRepositoryNameLength = 50;
 
-        public int Id { get; }
+        public int Id { get; init; }
         public string Title { get; }
         public string Description { get; }
         public string RepositoryName { get; }

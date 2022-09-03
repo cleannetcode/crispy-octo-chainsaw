@@ -1,5 +1,5 @@
 ﻿using CrispyOctoChainsaw.API.Contracts;
-using CrispyOctoChainsaw.Domain;
+using CrispyOctoChainsaw.Domain.Model;
 using CrispyOctoChainsaw.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -52,7 +52,7 @@ namespace CrispyOctoChainsaw.API.Controllers
             [FromBody] CreateCourseRequest createRequest)
         {
             var courseAdminId = Guid.NewGuid();
-            var newCourse = Course.Create(createRequest.Title, createRequest.Description);
+            var newCourse = Course.Create(createRequest.Title, createRequest.Description, createRequest.RepositoryName);
             if (newCourse.IsFailure)
             {
                 _logger.LogError("{errors}", newCourse.Error);
@@ -82,7 +82,7 @@ namespace CrispyOctoChainsaw.API.Controllers
             [FromRoute] int courseId,
             [FromBody] EditCourseRequest editRequest)
         {
-            var editCourse = Course.Create(editRequest.Title, editRequest.Description);
+            var editCourse = Course.Create(editRequest.Title, editRequest.Description, editRequest.RepositoryName);
             if (editCourse.IsFailure)
             {
                 _logger.LogError("{errors}", editCourse.Error);
