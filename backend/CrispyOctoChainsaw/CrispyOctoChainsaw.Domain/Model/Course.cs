@@ -4,14 +4,13 @@ namespace CrispyOctoChainsaw.Domain.Model
 {
     public record Course
     {
-        public long Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string RepositoryName { get; set; }
-        public long AuthorId { get; set; }
-        public string Status { get; set; }
+        public long Id { get; }
+        public string Title { get; }
+        public string Description { get; }
+        public string RepositoryName { get; }
+        public Guid CourseAdminId { get; }
 
-        public IEnumerable<Exercise> Exercises { get; set; }
+        public Exercise[] Exercises { get; set; }
 
         private Course(long id, string title, string description)
         {
@@ -29,13 +28,5 @@ namespace CrispyOctoChainsaw.Domain.Model
 
             return new Course(0, title, description);
         }
-    }
-
-    public record Exercise
-    {
-        public long Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string BranchName { get; set; }
     }
 }

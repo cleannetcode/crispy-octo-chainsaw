@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CrispyOctoChainsaw.DataAccess.Postgres.Repositories
 {
-    public class CourseRepository : ICourseRepository
+    public class CourseRepository : ICoursesRepository
     {
         private readonly CrispyOctoChainsawDbContext _context;
         private readonly IMapper _mapper;

@@ -1,10 +1,12 @@
 ﻿using CrispyOctoChainsaw.Domain.Model;
+using CSharpFunctionalExtensions;
 
 namespace CrispyOctoChainsaw.Domain.Interfaces
 {
-    public interface ICourseRepository
+    public interface ICoursesService
     {
         Task<Course[]> Get();
-        Task<Course?> Get(long courseId);
+
+        Task<Result<Course>> Get(long courseId);
     }
 }
