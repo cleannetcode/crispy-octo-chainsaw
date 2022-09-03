@@ -1,6 +1,6 @@
 ﻿namespace CrispyOctoChainsaw.Domain.Model
 {
-    enum Status
+    public enum Status
     {
         InProgress,
         Done,

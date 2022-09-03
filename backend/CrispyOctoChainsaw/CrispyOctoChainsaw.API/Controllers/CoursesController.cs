@@ -15,9 +15,9 @@ namespace CrispyOctoChainsaw.API.Controllers
         private readonly IMapper _mapper;
 
 
-        public CoursesController(ICoursesService courseRepository, ILogger<CoursesController> logger, IMapper mapper)
+        public CoursesController(ICoursesService courseService, ILogger<CoursesController> logger, IMapper mapper)
         {
-            _coursesService = courseRepository;
+            _coursesService = courseService;
             _logger = logger;
             _mapper = mapper;
         }
@@ -33,7 +33,7 @@ namespace CrispyOctoChainsaw.API.Controllers
         }
 
         [HttpGet("{courseId}")]
-        public async Task<IActionResult> Get(long courseId)
+        public async Task<IActionResult> Get(int courseId)
         {
             var course = await _coursesService.Get(courseId);
             
