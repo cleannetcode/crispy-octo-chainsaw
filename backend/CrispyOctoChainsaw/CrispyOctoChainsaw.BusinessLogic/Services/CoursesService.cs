@@ -18,7 +18,7 @@ namespace CrispyOctoChainsaw.BusinessLogic.Services
             return await _courseRepository.Get();
         }
 
-        public async Task<Result<Course>> Get(long courseId)
+        public async Task<Result<Course>> Get(int courseId)
         {
             var course = await _courseRepository.Get(courseId);
 

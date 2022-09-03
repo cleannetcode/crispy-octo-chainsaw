@@ -2,12 +2,12 @@
 {
     public class Member
     {
-        public long UserId { get; }
+        public int UserId { get; }
 
-        public long CourseId { get; }
+        public int CourseId { get; }
 
         public string? RepositoryLink { get; }
 
-        Status Status { get; }
+        public Status Status { get; }
     }
 }

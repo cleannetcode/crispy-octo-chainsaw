@@ -6,6 +6,6 @@ namespace CrispyOctoChainsaw.Domain.Interfaces
     {
         Task<Course[]> Get();
 
-        Task<Course?> Get(long courseId);
+        Task<Course?> Get(int courseId);
     }
 }

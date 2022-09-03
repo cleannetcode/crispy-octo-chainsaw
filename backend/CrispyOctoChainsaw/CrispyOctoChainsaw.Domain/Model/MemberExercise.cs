@@ -2,14 +2,14 @@
 {
     public class MemberExercise
     {
-        public long UserId { get; }
+        public int UserId { get; }
 
-        public long ExerciseId { get; }
+        public int ExerciseId { get; }
 
         public string? PullRequestLink { get; }
 
         public string? BranchLink { get; }
 
-        Status Status { get; }
+        public Status Status { get; }
     }
 }

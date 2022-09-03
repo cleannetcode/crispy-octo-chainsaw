@@ -4,7 +4,7 @@ namespace CrispyOctoChainsaw.Domain.Model
 {
     public record Course
     {
-        public long Id { get; }
+        public int Id { get; }
         public string Title { get; }
         public string Description { get; }
         public string RepositoryName { get; }
@@ -12,7 +12,7 @@ namespace CrispyOctoChainsaw.Domain.Model
 
         public Exercise[] Exercises { get; set; }
 
-        private Course(long id, string title, string description)
+        private Course(int id, string title, string description)
         {
             Id = id;
             Title = title;
