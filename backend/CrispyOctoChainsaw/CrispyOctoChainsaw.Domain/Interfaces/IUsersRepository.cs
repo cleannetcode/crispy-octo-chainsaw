@@ -1,4 +1,6 @@
-﻿namespace CrispyOctoChainsaw.Domain.Interfaces
+﻿using CrispyOctoChainsaw.Domain.Model;
+
+namespace CrispyOctoChainsaw.Domain.Interfaces
 {
     public interface IUsersRepository
     {

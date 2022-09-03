@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using CrispyOctoChainsaw.API.Contracts;
-using CrispyOctoChainsaw.Domain;
+using CrispyOctoChainsaw.Domain.Model;
 
 namespace CrispyOctoChainsaw.API
 {
