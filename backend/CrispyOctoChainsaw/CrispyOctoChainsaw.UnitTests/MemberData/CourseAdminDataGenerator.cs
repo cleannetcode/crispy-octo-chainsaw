@@ -11,7 +11,7 @@ namespace CrispyOctoChainsaw.UnitTests.MemberData
             for (int i = 0; i < testCount; i++)
             {
                 var invalidStringLength = rnd.Next(
-                    CourseAdmin.MAX_LENGTH_NICKNAME + 1,
+                    CourseAdmin.MaxLengthNickname + 1,
                     int.MaxValue / 1000);
 
                 var invalidStrings = Enumerable.Range(0, 5)
