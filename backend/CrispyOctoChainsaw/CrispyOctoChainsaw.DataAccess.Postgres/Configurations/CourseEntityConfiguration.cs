@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CrispyOctoChainsaw.DataAccess.Postgres.Configurations
 {
-    public class CourseConfiguration : IEntityTypeConfiguration<CourseEntity>
+    public class CourseEntityConfiguration : IEntityTypeConfiguration<CourseEntity>
     {
         public void Configure(EntityTypeBuilder<CourseEntity> builder)
         {

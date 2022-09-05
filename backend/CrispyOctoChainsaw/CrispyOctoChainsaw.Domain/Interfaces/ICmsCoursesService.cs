@@ -3,7 +3,7 @@ using CSharpFunctionalExtensions;
 
 namespace CrispyOctoChainsaw.Domain.Interfaces
 {
-    public interface ICourseAdminService
+    public interface ICmsCoursesService
     {
         Task<Result<Course[]>> GetAdminCourses(Guid courseAdminId);
 

@@ -1,5 +1,4 @@
 using CrispyOctoChainsaw.API;
-using CrispyOctoChainsaw.BusinessLogic;
 using CrispyOctoChainsaw.BusinessLogic.Services;
 using CrispyOctoChainsaw.DataAccess.Postgres;
 using CrispyOctoChainsaw.DataAccess.Postgres.Entities;
@@ -10,8 +9,8 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<ICourseAdminService, CourseAdminService>();
-builder.Services.AddScoped<ICourseAdminRepository, CourseAdminRepository>();
+builder.Services.AddScoped<ICmsCoursesService, CmsCoursesService>();
+builder.Services.AddScoped<ICmsCoursesRepository, CmsCoursesRepository>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

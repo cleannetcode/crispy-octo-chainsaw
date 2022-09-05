@@ -5,14 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CrispyOctoChainsaw.API.Controllers
 {
-    public class CourseController : BaseController
+    [Route("api/cms/courses")]
+    public class CmsCoursesController : BaseController
     {
-        private readonly ILogger<CourseController> _logger;
-        private readonly ICourseAdminService _service;
+        private readonly ILogger<CmsCoursesController> _logger;
+        private readonly ICmsCoursesService _service;
 
-        public CourseController(
-            ILogger<CourseController> logger,
-            ICourseAdminService service)
+        public CmsCoursesController(
+            ILogger<CmsCoursesController> logger,
+            ICmsCoursesService service)
         {
             _logger = logger;
             _service = service;
@@ -30,7 +31,6 @@ namespace CrispyOctoChainsaw.API.Controllers
             var courseAdminId = Guid.NewGuid();
 
             var result = await _service.GetAdminCourses(courseAdminId);
-
             if (result.IsFailure)
             {
                 _logger.LogError("{errors}", result.Error);

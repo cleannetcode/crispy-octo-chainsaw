@@ -2,13 +2,13 @@
 using CrispyOctoChainsaw.Domain.Interfaces;
 using CSharpFunctionalExtensions;
 
-namespace CrispyOctoChainsaw.BusinessLogic
+namespace CrispyOctoChainsaw.BusinessLogic.Services
 {
-    public class CourseAdminService : ICourseAdminService
+    public class CmsCoursesService : ICmsCoursesService
     {
-        private readonly ICourseAdminRepository _repository;
+        private readonly ICmsCoursesRepository _repository;
 
-        public CourseAdminService(ICourseAdminRepository repository)
+        public CmsCoursesService(ICmsCoursesRepository repository)
         {
             _repository = repository;
         }
