@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoFixture" Version="4.17.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
@@ -26,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CrispyOctoChainsaw.API\CrispyOctoChainsaw.API.csproj" />
     <ProjectReference Include="..\CrispyOctoChainsaw.BusinessLogic\CrispyOctoChainsaw.BusinessLogic.csproj" />
   </ItemGroup>
 

@@ -20,9 +20,9 @@ namespace CrispyOctoChainsaw.BusinessLogic.Services
                 return Result.Failure<int>($"{nameof(curseAdminId)} is not valid.");
             }
 
-            var courseId = await _repository.Create(newCourse);
+            var courseId = await _repository.Create(newCourse, curseAdminId);
 
-            return courseId;
+            return courseId.Value;
         }
 
         public async Task<Result<int>> EditCourse(int courseId, Course editCourse)

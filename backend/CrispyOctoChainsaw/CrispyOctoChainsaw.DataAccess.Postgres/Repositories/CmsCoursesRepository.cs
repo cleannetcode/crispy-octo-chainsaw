@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using CrispyOctoChainsaw.DataAccess.Postgres.Entities;
 using CrispyOctoChainsaw.Domain.Model;
 using CrispyOctoChainsaw.Domain.Interfaces;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
+using CrispyOctoChainsaw.DataAccess.Postgres.Entities;
 
 namespace CrispyOctoChainsaw.DataAccess.Postgres
 {
@@ -18,9 +18,10 @@ namespace CrispyOctoChainsaw.DataAccess.Postgres
             _mapper = mapper;
         }
 
-        public async Task<Result<int>> Create(Course newCourse)
+        public async Task<Result<int>> Create(Course newCourse, Guid curseAdminId)
         {
             var courseEntity = _mapper.Map<Course, CourseEntity>(newCourse);
+            courseEntity.CourseAdminId = curseAdminId;
 
             await _context.Courses.AddAsync(courseEntity);
             await _context.SaveChangesAsync();

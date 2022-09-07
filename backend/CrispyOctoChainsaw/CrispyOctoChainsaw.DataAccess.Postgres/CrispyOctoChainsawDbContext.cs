@@ -15,10 +15,12 @@ namespace CrispyOctoChainsaw.DataAccess.Postgres
 
         public DbSet<CourseEntity> Courses { get; set; }
 
+        public DbSet<SessionEntity> Sessions { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(typeof(CrispyOctoChainsawDbContext).Assembly);
-            this.OnModelCreating(builder);
+            base.OnModelCreating(builder);
         }
     }
 }
