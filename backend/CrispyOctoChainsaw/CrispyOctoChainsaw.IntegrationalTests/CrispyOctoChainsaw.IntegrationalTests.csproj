@@ -6,10 +6,16 @@
     <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
+
+    <UserSecretsId>4f57805d-589a-4490-9f06-70e6ba17d933</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoFixture" Version="4.17.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="Respawn" Version="6.0.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

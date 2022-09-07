@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using CrispyOctoChainsaw.DataAccess.Postgres.Entities;
 using CrispyOctoChainsaw.Domain.Model;
 using CrispyOctoChainsaw.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using CrispyOctoChainsaw.DataAccess.Postgres.Entities;
 
 namespace CrispyOctoChainsaw.DataAccess.Postgres.Repositories
 {

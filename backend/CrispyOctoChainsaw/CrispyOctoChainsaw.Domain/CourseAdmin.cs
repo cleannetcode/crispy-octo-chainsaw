@@ -20,33 +20,31 @@ namespace CrispyOctoChainsaw.Domain
             Guid courseAdminId,
             string nickname)
         {
-            var failureResults = new List<Result<CourseAdmin>>();
+            Result failure = Result.Success();
             if (courseAdminId == Guid.Empty)
             {
-                var failure = Result.Failure<CourseAdmin>(
+                failure = Result.Failure<CourseAdmin>(
                     $"{nameof(courseAdminId)} is not be empty!");
-                failureResults.Add(failure);
             }
 
             if (string.IsNullOrWhiteSpace(nickname))
             {
-                var failure = Result.Failure<CourseAdmin>(
-                    $"{nameof(nickname)} is not be null or whitespace");
-                failureResults.Add(failure);
+                failure = Result.Combine(
+                    failure,
+                    Result.Failure<CourseAdmin>($"{nameof(nickname)} is not be null or whitespace"));
             }
 
             if (!string.IsNullOrWhiteSpace(nickname)
                 && nickname.Length > MaxLengthNickname)
             {
-                var failure = Result.Failure<CourseAdmin>(
-                    $"{nameof(nickname)} is not be more than {MaxLengthNickname} chars");
-                failureResults.Add(failure);
+                failure = Result.Combine(
+                    failure,
+                    Result.Failure<CourseAdmin>($"{nameof(nickname)} is not be more than {MaxLengthNickname} chars"));
             }
 
-            if (failureResults.Any())
+            if (failure.IsFailure)
             {
-                var erros = Result.Combine(failureResults, "  ").Error;
-                return Result.Failure<CourseAdmin>(erros);
+                return Result.Failure<CourseAdmin>(failure.Error);
             }
 
             var courseAdmin = new CourseAdmin(courseAdminId, nickname);

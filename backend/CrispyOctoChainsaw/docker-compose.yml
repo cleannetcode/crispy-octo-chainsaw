@@ -6,19 +6,32 @@ services:
     build:
       context: .
       dockerfile: CrispyOctoChainsaw.API/Dockerfile
-    container_name: api
+    container_name: CrOctChainApi
 
   db:
-    container_name: db
-    image: postgres:latest
+    container_name: CrOctChainDb
+    image: postgres
     volumes:
         - db-data:/var/lib/postgresql/data
     restart: always
     environment:
-        - POSTGRES_PASSWORD=pwd
+        POSTGRES_PASSWORD: pwd
     ports:
-        - 5433:5432
+        - 5440:5432
+
+  Testdb:
+    container_name: CrOctChainTestDb
+    image: postgres
+    volumes:
+       - db-CrOctChainTestDb-data:/var/lib/postgresql/data
+    restart: always
+    environment:
+        POSTGRES_PASSWORD: pwd
+    ports:
+        - 5450:5432
 
 volumes: 
   db-data:
+    driver: local
+  db-CrOctChainTestDb-data:
     driver: local

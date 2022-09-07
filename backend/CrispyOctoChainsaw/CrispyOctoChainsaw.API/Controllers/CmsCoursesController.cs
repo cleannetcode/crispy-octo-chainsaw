@@ -2,6 +2,7 @@
 using CrispyOctoChainsaw.Domain.Model;
 using CrispyOctoChainsaw.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CrispyOctoChainsaw.API.Controllers
 {
@@ -23,12 +24,13 @@ namespace CrispyOctoChainsaw.API.Controllers
         /// Get admin courses.
         /// </summary>
         /// <returns>Courses.</returns>
+        [Authorize(Roles = nameof(Roles.CourseAdmin))]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetCourseResponse[]))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetAdminCourses()
         {
-            var courseAdminId = Guid.NewGuid();
+            var courseAdminId = UserId.Value;
 
             var result = await _service.GetAdminCourses(courseAdminId);
             if (result.IsFailure)
@@ -51,7 +53,8 @@ namespace CrispyOctoChainsaw.API.Controllers
         public async Task<IActionResult> CreateCourse(
             [FromBody] CreateCourseRequest createRequest)
         {
-            var courseAdminId = Guid.NewGuid();
+            var courseAdminId = UserId.Value;
+
             var newCourse = Course.Create(createRequest.Title, createRequest.Description, createRequest.RepositoryName);
             if (newCourse.IsFailure)
             {
@@ -66,7 +69,7 @@ namespace CrispyOctoChainsaw.API.Controllers
                 return BadRequest(result.Error);
             }
 
-            return Ok(result);
+            return Ok(result.Value);
         }
 
         /// <summary>
@@ -96,7 +99,7 @@ namespace CrispyOctoChainsaw.API.Controllers
                 return BadRequest(result.Error);
             }
 
-            return Ok(result);
+            return Ok(result.Value);
         }
 
         /// <summary>

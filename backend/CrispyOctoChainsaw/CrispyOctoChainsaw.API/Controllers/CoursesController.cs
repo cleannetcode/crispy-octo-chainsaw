@@ -14,7 +14,6 @@ namespace CrispyOctoChainsaw.API.Controllers
         private readonly ILogger<CoursesController> _logger;
         private readonly IMapper _mapper;
 
-
         public CoursesController(ICoursesService courseService, ILogger<CoursesController> logger, IMapper mapper)
         {
             _coursesService = courseService;

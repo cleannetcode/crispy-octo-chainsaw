@@ -1,25 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Layout } from 'antd';
+import HeaderComponent from './components/HeaderComponent';
+import 'antd/dist/antd.min.css';
+import AuthPage from './pages/AuthPage/AuthPage';
+import TestPage from './pages/TestPage/TestPage';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route
+          path='/'
+          element={
+            <div className='App'>
+              <header>
+                <Layout>
+                  <HeaderComponent />
+                </Layout>
+              </header>
+            </div>
+          }
+        />
+        <Route
+          path='login'
+          element={
+            <div>
+              {/* <Layout>
+                <HeaderComponent />
+              </Layout> */}
+              <AuthPage />
+            </div>
+          }
+        />
+        <Route
+          path='test'
+          element={
+            <div>
+              {/* <Layout>
+                <HeaderComponent />
+              </Layout> */}
+              <TestPage />
+            </div>
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
 
