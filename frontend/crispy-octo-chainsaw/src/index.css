@@ -73,3 +73,9 @@ code {
 .nickname-container {
   margin-right: 30px;
 }
+
+.course-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

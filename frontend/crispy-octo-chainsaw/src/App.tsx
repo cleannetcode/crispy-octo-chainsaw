@@ -7,6 +7,7 @@ import HeaderComponent from './components/HeaderComponent';
 import 'antd/dist/antd.min.css';
 import AuthPage from './pages/AuthPage/AuthPage';
 import TestPage from './pages/TestPage/TestPage';
+import MainPage from './pages/MainPage/MainPage';
 
 function App() {
   return (
@@ -15,12 +16,8 @@ function App() {
         <Route
           path='/'
           element={
-            <div className='App'>
-              <header>
-                <Layout>
-                  <HeaderComponent />
-                </Layout>
-              </header>
+            <div>
+              <MainPage/>
             </div>
           }
         />
