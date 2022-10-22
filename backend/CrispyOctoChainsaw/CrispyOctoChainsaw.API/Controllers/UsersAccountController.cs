@@ -72,9 +72,9 @@ namespace CrispyOctoChainsaw.API.Controllers
                     };
 
                     await _roleManager.CreateAsync(role);
-
-                    await _userManager.AddToRoleAsync(newCourseAdmin, nameof(Roles.CourseAdmin));
                 }
+
+                await _userManager.AddToRoleAsync(newCourseAdmin, nameof(Roles.CourseAdmin));
             }
             else
             {
@@ -169,12 +169,12 @@ namespace CrispyOctoChainsaw.API.Controllers
             var role = roles.FirstOrDefault();
             if (role is null)
             {
-                return BadRequest("Role isn't existing.");
+                return BadRequest("Role isn't exist.");
             }
 
             var userInformation = new UserInformation(user.UserName, user.Id, role);
-            var accsessToken = CreateAccessToken(userInformation, _options);
-            var refreshToken = CreateRefreshToken(userInformation, _options);
+            var accsessToken = JwtHelper.CreateAccessToken(userInformation, _options);
+            var refreshToken = JwtHelper.CreateRefreshToken(userInformation, _options);
 
             var session = Session.Create(user.Id, accsessToken, refreshToken);
             if (session.IsFailure)
@@ -209,9 +209,9 @@ namespace CrispyOctoChainsaw.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RefreshAccessToken([FromBody] TokenRequest request)
         {
-            var payload = GetPayloadFromJWTToken(request.RefreshToken, _options);
+            var payload = JwtHelper.GetPayloadFromJWTToken(request.RefreshToken, _options);
 
-            var userInformation = ParseUserInformation(payload);
+            var userInformation = JwtHelper.ParseUserInformation(payload);
             if (userInformation.IsFailure)
             {
                 _logger.LogError("{error}", userInformation.Error);
@@ -225,8 +225,8 @@ namespace CrispyOctoChainsaw.API.Controllers
                 return BadRequest(resultGet.Error);
             }
 
-            var accsessToken = CreateAccessToken(userInformation.Value, _options);
-            var refreshToken = CreateRefreshToken(userInformation.Value, _options);
+            var accsessToken = JwtHelper.CreateAccessToken(userInformation.Value, _options);
+            var refreshToken = JwtHelper.CreateRefreshToken(userInformation.Value, _options);
 
             var session = Session.Create(userInformation.Value.UserId, accsessToken, refreshToken);
             if (resultGet.IsFailure)

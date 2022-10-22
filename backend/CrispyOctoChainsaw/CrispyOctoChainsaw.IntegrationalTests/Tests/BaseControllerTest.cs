@@ -159,7 +159,7 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
         {
             var refreshToken = JwtBuilder.Create()
                     .WithAlgorithm(new HMACSHA256Algorithm())
-                    .WithSecret("U89_&^KJBN@#_JfvpsnaIU")
+                    .WithSecret(JwtTokenSecret)
                     .ExpirationTime(DateTimeOffset.UtcNow.AddMonths(1).ToUnixTimeSeconds())
                     .AddClaim(ClaimTypes.Name, information.Nickname)
                     .AddClaim(ClaimTypes.NameIdentifier, information.UserId)

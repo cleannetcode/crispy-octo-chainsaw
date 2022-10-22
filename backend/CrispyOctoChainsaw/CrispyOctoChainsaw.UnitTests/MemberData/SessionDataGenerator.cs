@@ -12,7 +12,6 @@ namespace CrispyOctoChainsaw.UnitTests.MemberData
 
             for (int i = 0; i < testCount; i++)
             {
-
                 var invalidStringLength = rnd.Next(
                     Session.MaxLengthToken + 1,
                     int.MaxValue / 1000);

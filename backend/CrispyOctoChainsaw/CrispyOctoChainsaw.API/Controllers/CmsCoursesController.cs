@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CrispyOctoChainsaw.API.Controllers
 {
+    [Authorize(Roles = nameof(Roles.CourseAdmin))]
     [Route("api/cms/courses")]
     public class CmsCoursesController : BaseController
     {
@@ -24,7 +25,6 @@ namespace CrispyOctoChainsaw.API.Controllers
         /// Get admin courses.
         /// </summary>
         /// <returns>Courses.</returns>
-        [Authorize(Roles = nameof(Roles.CourseAdmin))]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetCourseResponse[]))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
