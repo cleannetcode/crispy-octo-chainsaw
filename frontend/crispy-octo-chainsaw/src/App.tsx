@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Layout } from 'antd';
 import HeaderComponent from './components/HeaderComponent';
 import 'antd/dist/antd.min.css';
-import AuthPage from './pages/AuthPage/AuthPage';
+import { AuthPage } from './pages/AuthPage/AuthPage';
 import TestPage from './pages/TestPage/TestPage';
+import { CoursePage } from './pages/CoursePage/CoursePage';
+import { ExercisePage } from './pages/ExercisePage/ExercisePage';
 
 function App() {
   return (
@@ -28,9 +29,6 @@ function App() {
           path='login'
           element={
             <div>
-              {/* <Layout>
-                <HeaderComponent />
-              </Layout> */}
               <AuthPage />
             </div>
           }
@@ -39,11 +37,24 @@ function App() {
           path='test'
           element={
             <div>
-              {/* <Layout>
-                <HeaderComponent />
-              </Layout> */}
               <TestPage />
             </div>
+          }
+        />
+        <Route
+          path='createcourse'
+          element={
+            <>
+              <CoursePage />
+            </>
+          }
+        />
+        <Route
+          path='createexercise'
+          element={
+            <>
+              <ExercisePage />
+            </>
           }
         />
       </Routes>

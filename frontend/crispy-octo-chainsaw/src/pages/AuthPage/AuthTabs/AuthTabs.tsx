@@ -1,13 +1,10 @@
 import React from 'react';
 import { Tabs } from 'antd';
-import LoginForm from './LoginForm';
-import RegistrationForm from './RegistrationForm';
-import { LoginData, RegistrationData } from './AuthPage';
+import { RegistrationForm } from '../RegistrationForm/RegistrationForm';
+import { LoginForm } from '../LoginForm/LoginForm';
+import { AuthTabsProps } from './AuthTabsProps';
 
-function AuthTabs(props: {
-  registraion: (data: RegistrationData) => void;
-  login: (data: LoginData) => void;
-}) {
+export function AuthTabs(props: AuthTabsProps) {
   return (
     <div>
       <Tabs defaultActiveKey='1'>
@@ -21,5 +18,3 @@ function AuthTabs(props: {
     </div>
   );
 }
-
-export default AuthTabs;

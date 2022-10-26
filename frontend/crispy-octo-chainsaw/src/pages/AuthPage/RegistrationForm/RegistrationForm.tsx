@@ -1,42 +1,21 @@
 import { Button, Form, Input, Select } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
-import { RegistrationData } from './AuthPage';
+import { RegistrationFormProps } from './RegistrationFormProps';
+import { useRegistationForm } from './useRegistrationForm';
 
 const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$^+=!*()@%&]).{8,}$/;
 
-function RegistrationForm(props: {
-  registraion: (data: RegistrationData) => void;
-}) {
-  const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([]);
-  const [userEmail, setUserEmail] = useState('');
-  const [userPassword, setUserPassword] = useState('');
-  const [userNickname, setUserNickname] = useState('');
-
-  const { Option } = Select;
+export function RegistrationForm(props: RegistrationFormProps) {
+  const data = useRegistationForm();
 
   const [form] = Form.useForm();
 
-  const onWebsiteChange = (value: string) => {
-    if (!value) {
-      setAutoCompleteResult([]);
-    } else {
-      setAutoCompleteResult(
-        ['.com', '.org', '.net'].map((domain) => `${value}${domain}`)
-      );
-    }
-  };
-
-  const websiteOptions = autoCompleteResult.map((website) => ({
-    label: website,
-    value: website,
-  }));
-
   const onFinish = async () => {
     await props.registraion({
-      email: userEmail,
-      nickname: userNickname,
-      password: userPassword,
+      email: data.email,
+      nickname: data.nickname,
+      password: data.password,
     });
   };
 
@@ -62,16 +41,15 @@ function RegistrationForm(props: {
           ]}
         >
           <Input
-            value={userNickname}
+            value={data.nickname}
             prefix={<UserOutlined className='site-form-item-icon' />}
             placeholder='Nickname'
-            onChange={(e) => setUserNickname(e.target.value)}
+            onChange={(e) => data.handleRegistraionNickname(e.target.value)}
           />
         </Form.Item>
 
         <Form.Item
           name='email'
-          // label='E-mail'
           rules={[
             {
               type: 'email',
@@ -84,16 +62,15 @@ function RegistrationForm(props: {
           ]}
         >
           <Input
-            value={userEmail}
+            value={data.email}
             prefix={<UserOutlined className='site-form-item-icon' />}
             placeholder='Email'
-            onChange={(e) => setUserEmail(e.target.value)}
+            onChange={(e) => data.handleRegistraionEmail(e.target.value)}
           />
         </Form.Item>
 
         <Form.Item
           name='password'
-          // label='Password'
           rules={[
             {
               required: true,
@@ -104,18 +81,17 @@ function RegistrationForm(props: {
           hasFeedback
         >
           <Input.Password
-            value={userPassword}
+            value={data.password}
             prefix={<LockOutlined className='site-form-item-icon' />}
             placeholder='Password'
             onChange={(e) => {
-              setUserPassword(e.target.value);
+              data.handleRegistraionPassword(e.target.value);
             }}
           />
         </Form.Item>
 
         <Form.Item
           name='confirm'
-          // label='Confirm Password'
           dependencies={['password']}
           hasFeedback
           rules={[
@@ -142,13 +118,7 @@ function RegistrationForm(props: {
         </Form.Item>
 
         <Form.Item>
-          <Button
-            // onClick={() => {
-            //   onFinish();
-            // }}
-            type='primary'
-            htmlType='submit'
-          >
+          <Button type='primary' htmlType='submit'>
             Register
           </Button>
         </Form.Item>
@@ -156,5 +126,3 @@ function RegistrationForm(props: {
     </div>
   );
 }
-
-export default RegistrationForm;

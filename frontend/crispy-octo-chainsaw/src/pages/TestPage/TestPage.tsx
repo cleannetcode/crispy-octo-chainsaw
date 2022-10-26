@@ -1,7 +1,5 @@
-import { Layout } from 'antd';
 import React from 'react';
 import PageWrapper from '../../components/PageWrapper';
-import HeaderWrapper from '../../components/PageWrapper';
 
 function TestPage() {
   return (

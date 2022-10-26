@@ -1,0 +1,11 @@
+.create-form-exercise {
+  width: 400px;
+}
+
+.create-exercise-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  background: #fff;
+}

@@ -1,11 +1,11 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
 import React, { useState } from 'react';
-import { LoginData } from './AuthPage';
+import { LoginFormProps } from './LoginFormProps';
+import { useLoginForm } from './useLoginForm';
 
-function LoginForm(props: { login: (data: LoginData) => void }) {
-  const [email, setEmail] = useState('');
-  const [password, setpassword] = useState('');
+export function LoginForm(props: LoginFormProps) {
+  const { email, password, handleEmail, handlePassword } = useLoginForm();
 
   const onFinish = () => {
     props.login({ password: password, email: email });
@@ -28,7 +28,7 @@ function LoginForm(props: { login: (data: LoginData) => void }) {
               prefix={<UserOutlined className='site-form-item-icon' />}
               value={email}
               placeholder='Email'
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => handleEmail(e.target.value)}
             />
           </Form.Item>
           <Form.Item
@@ -40,7 +40,7 @@ function LoginForm(props: { login: (data: LoginData) => void }) {
               type='password'
               placeholder='Password'
               value={password}
-              onChange={(e) => setpassword(e.target.value)}
+              onChange={(e) => handlePassword(e.target.value)}
             />
           </Form.Item>
           <Form.Item>
@@ -58,7 +58,6 @@ function LoginForm(props: { login: (data: LoginData) => void }) {
               type='primary'
               htmlType='submit'
               className='login-form-button'
-              // onClick={() => onFinish()}
             >
               Login
             </Button>
@@ -68,5 +67,3 @@ function LoginForm(props: { login: (data: LoginData) => void }) {
     </div>
   );
 }
-
-export default LoginForm;

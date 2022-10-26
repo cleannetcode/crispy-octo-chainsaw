@@ -1,0 +1,17 @@
+.create-form-course {
+  width: 400px;
+}
+
+.create-course-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  background: #fff;
+}
+
+.flex-contrainer-repository-name {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
