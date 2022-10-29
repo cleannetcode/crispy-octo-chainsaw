@@ -8,36 +8,47 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
+using Respawn;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using Xunit.Abstractions;
 
 namespace CrispyOctoChainsaw.IntegrationalTests.Tests
 {
-    public class BaseControllerTest : IClassFixture<DatabaseRespawn>
+    [Collection("Database collection")]
+    public abstract class BaseControllerTest : IAsyncLifetime
     {
         public BaseControllerTest(ITestOutputHelper outputHelper)
         {
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.Test.json")
+                .AddUserSecrets(typeof(BaseControllerTest).Assembly)
+                .Build();
+
+            ConnectionString = builder.GetConnectionString("CrispyOctoChainsawDbContext");
+
             var app = new WebApplicationFactory<Program>()
                 .WithWebHostBuilder(builder =>
                 {
                     builder.ConfigureAppConfiguration((context, configurationBuilder) =>
                     {
                         var configuration = configurationBuilder
+                        .AddJsonFile("appsettings.Test.json")
                         .AddUserSecrets(typeof(BaseControllerTest).Assembly)
                         .Build();
 
                         CourseAdminId = configuration
-                            .GetSection("Secrets:CourseAdminId")
-                            .Value;
+                           .GetSection("Secrets:CourseAdminId")
+                           .Value;
 
                         UserId = configuration
                             .GetSection("Secrets:UserId")
                             .Value;
 
                         JwtTokenSecret = configuration
-                        .GetSection("Secret")
-                        .Value;
+                            .GetSection("JWTSecret:Secret")
+                            .Value;
                     });
                 });
 
@@ -81,8 +92,8 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
         {
             var courseAdminId = await GetGuidId(CourseAdminId);
 
-            var userIdformation = new UserInformation(CourseAdminNickname, courseAdminId, CourseAdminRole);
-            var token = CreateAccessToken(userIdformation);
+            var userInformation = new UserInformation(CourseAdminNickname, courseAdminId, CourseAdminRole);
+            var token = CreateAccessToken(userInformation);
 
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
                 JwtBearerDefaults.AuthenticationScheme,
@@ -169,5 +180,37 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
 
             return refreshToken;
         }
+
+        public string ConnectionString { get; set; }
+
+        public Task InitializeAsync()
+        {
+            return Task.CompletedTask;
+        }
+
+        public async Task DisposeAsync()
+        {
+            var respawner = await CreateRespawner();
+
+            using (var conn = new NpgsqlConnection(ConnectionString))
+            {
+                await conn.OpenAsync();
+                await respawner.ResetAsync(conn);
+            }
+        }
+
+        private async Task<Respawner> CreateRespawner()
+        {
+            using var connection = new NpgsqlConnection(ConnectionString);
+            await connection.OpenAsync();
+
+            var respawner = await Respawner.CreateAsync(connection, new RespawnerOptions
+            {
+                DbAdapter = DbAdapter.Postgres
+            });
+
+            return respawner;
+        }
     }
 }
+

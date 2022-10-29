@@ -10,7 +10,7 @@ namespace CrispyOctoChainsaw.IntegrationalTests.MemberData
 
             var length = rnd.Next(
                     Course.MaxTitleLength + 1,
-                    int.MaxValue / 1000);
+                    Course.MaxTitleLength + 4);
 
             return length;
         }
@@ -21,7 +21,7 @@ namespace CrispyOctoChainsaw.IntegrationalTests.MemberData
 
             var length = rnd.Next(
                     Course.MaxDescriptionsLength + 1,
-                    int.MaxValue / 1000);
+                    Course.MaxDescriptionsLength + 4);
 
             return length;
         }
@@ -32,7 +32,7 @@ namespace CrispyOctoChainsaw.IntegrationalTests.MemberData
 
             var length = rnd.Next(
                     Course.MaxRepositoryNameLength + 1,
-                    int.MaxValue / 1000);
+                    Course.MaxRepositoryNameLength + 4);
 
             return length;
         }
