@@ -1,6 +1,3 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
 name: .NET
 
 on:
@@ -11,8 +8,11 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./backend/CrispyOctoChainsaw/
 
     steps:
     - uses: actions/checkout@v3
@@ -21,8 +21,54 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./CrispyOctoChainsaw.sln
     - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet build ./CrispyOctoChainsaw.sln --no-restore
+
+  unit_tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend/CrispyOctoChainsaw/
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Test
+        run: dotnet test ./CrispyOctoChainsaw.UnitTests/CrispyOctoChainsaw.UnitTests.csproj --verbosity normal
+
+  integration_tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend/CrispyOctoChainsaw/
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup PostgreSQL
+        uses: Harmon758/postgresql-action@v1.0.0
+
+        with:
+          postgresql db: CrispyOctoChainsawDb
+          postgresql password: pwd
+    
+      - name: Init secrets API
+        run: dotnet user-secrets init -p ./CrispyOctoChainsaw.API 
+       
+      - name: Set connection string API
+        run: dotnet user-secrets set "ConnectionStrings:CrispyOctoChainsawDbContext" "User ID=postgres;Password=pwd;Host=localhost;Port=5432;Database=CrispyOctoChainsawDb;Pooling=true;" -p ./CrispyOctoChainsaw.API 
+      
+      - name: Init secrets IntegrationalTests
+        run: dotnet user-secrets init -p ./CrispyOctoChainsaw.IntegrationalTests
+       
+      - name: Set connection string IntegrationalTests
+        run: dotnet user-secrets set "ConnectionStrings:CrispyOctoChainsawDbContext" "User ID=postgres;Password=pwd;Host=localhost;Port=5432;Database=CrispyOctoChainsawDb;Pooling=true;" -p ./CrispyOctoChainsaw.IntegrationalTests
+
+      - name: tool restore
+        run: dotnet tool restore --tool-manifest ./.config/dotnet-tools.json
+
+      - name: update database
+        run: dotnet ef database update -p ./CrispyOctoChainsaw.DataAccess.Postgres -s ./CrispyOctoChainsaw.API
+        
+      - name: Test
+        run: dotnet test ./CrispyOctoChainsaw.IntegrationalTests/CrispyOctoChainsaw.IntegrationalTests.csproj --verbosity normal /p:ParallelizeTestCollections=false
