@@ -32,7 +32,7 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
                     {
                         var configuration = configurationBuilder
                             .SetBasePath(_path)
-                            .AddJsonFile("appsettings.Test.json")
+                            .AddJsonFile("testsettings.json")
                             .AddUserSecrets(typeof(BaseControllerTest).Assembly)
                             .Build();
 
@@ -40,15 +40,30 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
                            .GetSection("Secrets:CourseAdminId")
                            .Value;
 
+                        if (string.IsNullOrWhiteSpace(CourseAdminId))
+                        {
+                            throw new ArgumentException($"{nameof(CourseAdminId)} - is required. Please setup testsettings");
+                        }
+
                         UserId = configuration
                             .GetSection("Secrets:UserId")
                             .Value;
 
+                        if (string.IsNullOrWhiteSpace(UserId))
+                        {
+                            throw new ArgumentException($"{nameof(UserId)} - is required");
+                        }
+
                         JwtTokenSecret = configuration
-                            .GetSection("Secret")
+                            .GetSection("JWTSecret:Secret")
                             .Value;
 
-                        ConnectionString = context.Configuration.GetConnectionString("CrispyOctoChainsawDbContext");
+                        if (string.IsNullOrWhiteSpace(JwtTokenSecret))
+                        {
+                            throw new ArgumentException($"{nameof(JwtTokenSecret)} - is required");
+                        }
+
+                        ConnectionString = configuration.GetConnectionString(nameof(CrispyOctoChainsawDbContext));
                     });
                 });
 
@@ -154,14 +169,14 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
         protected string CreateAccessToken(UserInformation information)
         {
             var accsessToken = JwtBuilder.Create()
-                      .WithAlgorithm(new HMACSHA256Algorithm())
-                      .WithSecret(JwtTokenSecret)
-                      .ExpirationTime(DateTimeOffset.UtcNow.AddHours(1).ToUnixTimeSeconds())
-                      .AddClaim(ClaimTypes.Name, information.Nickname)
-                      .AddClaim(ClaimTypes.NameIdentifier, information.UserId)
-                      .AddClaim(ClaimTypes.Role, information.Role)
-                      .WithVerifySignature(true)
-                      .Encode();
+                .WithAlgorithm(new HMACSHA256Algorithm())
+                .WithSecret(JwtTokenSecret)
+                .ExpirationTime(DateTimeOffset.UtcNow.AddHours(1).ToUnixTimeSeconds())
+                .AddClaim(ClaimTypes.Name, information.Nickname)
+                .AddClaim(ClaimTypes.NameIdentifier, information.UserId)
+                .AddClaim(ClaimTypes.Role, information.Role)
+                .WithVerifySignature(true)
+                .Encode();
 
             return accsessToken;
         }
