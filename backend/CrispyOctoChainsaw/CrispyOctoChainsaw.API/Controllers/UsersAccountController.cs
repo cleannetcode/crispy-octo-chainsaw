@@ -3,6 +3,7 @@ using CrispyOctoChainsaw.API.Options;
 using CrispyOctoChainsaw.DataAccess.Postgres.Entities;
 using CrispyOctoChainsaw.Domain.Interfaces;
 using CrispyOctoChainsaw.Domain.Model;
+using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -209,9 +210,19 @@ namespace CrispyOctoChainsaw.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RefreshAccessToken([FromBody] TokenRequest request)
         {
-            var payload = JwtHelper.GetPayloadFromJWTToken(request.RefreshToken, _options);
+            const bool jwtTokenV2 = false;
+            Result<UserInformation> userInformation;
 
-            var userInformation = JwtHelper.ParseUserInformation(payload);
+            if (jwtTokenV2)
+            {
+                userInformation = JwtHelper.GetPayloadFromJWTTokenV2(request.RefreshToken, _options);
+            }
+            else
+            {
+                var payload = JwtHelper.GetPayloadFromJWTToken(request.RefreshToken, _options);
+                userInformation = JwtHelper.ParseUserInformation(payload);
+            }
+
             if (userInformation.IsFailure)
             {
                 _logger.LogError("{error}", userInformation.Error);
