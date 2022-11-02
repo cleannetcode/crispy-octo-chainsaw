@@ -31,9 +31,10 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
                     builder.ConfigureAppConfiguration((context, configurationBuilder) =>
                     {
                         var configuration = configurationBuilder
-                        .SetBasePath(_path)
-                        .AddJsonFile("appsettings.Test.json")
-                        .Build();
+                            .SetBasePath(_path)
+                            .AddJsonFile("appsettings.Test.json")
+                            .AddUserSecrets(typeof(BaseControllerTest).Assembly)
+                            .Build();
 
                         CourseAdminId = configuration
                            .GetSection("Secrets:CourseAdminId")
@@ -47,7 +48,7 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
                             .GetSection("Secret")
                             .Value;
 
-                    ConnectionString = context.Configuration.GetConnectionString("CrispyOctoChainsawDbContext");
+                        ConnectionString = context.Configuration.GetConnectionString("CrispyOctoChainsawDbContext");
                     });
                 });
 
