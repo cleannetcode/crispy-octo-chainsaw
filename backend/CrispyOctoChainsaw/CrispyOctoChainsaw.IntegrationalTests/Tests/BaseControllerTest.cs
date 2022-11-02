@@ -19,23 +19,20 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
     [Collection("Database collection")]
     public abstract class BaseControllerTest : IAsyncLifetime
     {
+        private static readonly string _baseDirectory = AppContext.BaseDirectory;
+
+        private static readonly string _path = Directory.GetParent(_baseDirectory).FullName;
+
         public BaseControllerTest(ITestOutputHelper outputHelper)
         {
-            var builder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.Test.json")
-                .AddUserSecrets(typeof(BaseControllerTest).Assembly)
-                .Build();
-
-            ConnectionString = builder.GetConnectionString("CrispyOctoChainsawDbContext");
-
             var app = new WebApplicationFactory<Program>()
                 .WithWebHostBuilder(builder =>
                 {
                     builder.ConfigureAppConfiguration((context, configurationBuilder) =>
                     {
                         var configuration = configurationBuilder
+                        .SetBasePath(_path)
                         .AddJsonFile("appsettings.Test.json")
-                        .AddUserSecrets(typeof(BaseControllerTest).Assembly)
                         .Build();
 
                         CourseAdminId = configuration
@@ -47,8 +44,10 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
                             .Value;
 
                         JwtTokenSecret = configuration
-                            .GetSection("JWTSecret:Secret")
+                            .GetSection("Secret")
                             .Value;
+
+                    ConnectionString = context.Configuration.GetConnectionString("CrispyOctoChainsawDbContext");
                     });
                 });
 

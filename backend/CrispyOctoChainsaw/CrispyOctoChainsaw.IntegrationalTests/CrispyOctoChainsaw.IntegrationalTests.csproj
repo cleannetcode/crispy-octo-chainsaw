@@ -35,4 +35,11 @@
     <ProjectReference Include="..\CrispyOctoChainsaw.API\CrispyOctoChainsaw.API.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="appsettings.Test.json">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+
 </Project>
