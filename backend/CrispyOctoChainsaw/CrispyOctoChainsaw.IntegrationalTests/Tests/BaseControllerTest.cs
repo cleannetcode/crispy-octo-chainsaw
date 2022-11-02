@@ -25,6 +25,13 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
 
         public BaseControllerTest(ITestOutputHelper outputHelper)
         {
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.Test.json")
+                .AddUserSecrets(typeof(BaseControllerTest).Assembly)
+                .Build();
+
+            ConnectionString = builder.GetConnectionString("CrispyOctoChainsawDbContext");
+
             var app = new WebApplicationFactory<Program>()
                 .WithWebHostBuilder(builder =>
                 {
