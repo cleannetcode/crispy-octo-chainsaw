@@ -11,6 +11,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="testsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="testsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.17.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.8" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
@@ -33,6 +45,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CrispyOctoChainsaw.API\CrispyOctoChainsaw.API.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+  	<None Update="testsettings.json">
+  		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  	</None>
   </ItemGroup>
 
 </Project>

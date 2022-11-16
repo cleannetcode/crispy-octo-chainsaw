@@ -1,16 +1,14 @@
-﻿using CrispyOctoChainsaw.API.Options;
+﻿using System.Security.Claims;
+using CrispyOctoChainsaw.API.Options;
 using CSharpFunctionalExtensions;
 using JWT.Algorithms;
 using JWT.Builder;
-using System.Security.Claims;
 
 namespace CrispyOctoChainsaw.API
 {
     public class JwtHelper
     {
-        public static string CreateAccessToken(
-            UserInformation information,
-            JWTSecretOptions options)
+        public static string CreateAccessToken(UserInformation information, JWTSecretOptions options)
         {
             var accsessToken = JwtBuilder.Create()
                       .WithAlgorithm(new HMACSHA256Algorithm())
@@ -25,9 +23,7 @@ namespace CrispyOctoChainsaw.API
             return accsessToken;
         }
 
-        public static string CreateRefreshToken(
-            UserInformation information,
-            JWTSecretOptions options)
+        public static string CreateRefreshToken(UserInformation information, JWTSecretOptions options)
         {
             var refreshToken = JwtBuilder.Create()
                     .WithAlgorithm(new HMACSHA256Algorithm())
@@ -42,9 +38,18 @@ namespace CrispyOctoChainsaw.API
             return refreshToken;
         }
 
-        public static IDictionary<string, object> GetPayloadFromJWTToken(
-            string token,
-            JWTSecretOptions options)
+        public static Result<UserInformation> GetPayloadFromJWTTokenV2(string token, JWTSecretOptions options)
+        {
+            var payload = JwtBuilder.Create()
+                        .WithAlgorithm(new HMACSHA256Algorithm())
+                        .WithSecret(options.Secret)
+                        .MustVerifySignature()
+                        .Decode<UserInformation>(token);
+
+            return payload;
+        }
+
+        public static IDictionary<string, object> GetPayloadFromJWTToken(string token, JWTSecretOptions options)
         {
             var payload = JwtBuilder.Create()
                         .WithAlgorithm(new HMACSHA256Algorithm())
@@ -55,15 +60,11 @@ namespace CrispyOctoChainsaw.API
             return payload;
         }
 
-        public static Result<UserInformation> ParseUserInformation(
-            IDictionary<string,
-                object> payload)
+        public static Result<UserInformation> ParseUserInformation(IDictionary<string, object> payload)
         {
             Result failure = Result.Success();
 
-            if (!payload.TryGetValue(
-                ClaimTypes.NameIdentifier,
-                out var nameIdentifierValue))
+            if (!payload.TryGetValue(ClaimTypes.NameIdentifier, out var nameIdentifierValue))
             {
                 failure = Result.Combine(
                     failure,
