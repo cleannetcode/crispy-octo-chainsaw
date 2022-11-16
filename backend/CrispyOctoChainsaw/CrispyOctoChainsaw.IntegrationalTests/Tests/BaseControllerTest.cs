@@ -1,4 +1,6 @@
-﻿using AutoFixture;
+﻿using System.Net.Http.Headers;
+using System.Security.Claims;
+using AutoFixture;
 using CrispyOctoChainsaw.API;
 using CrispyOctoChainsaw.DataAccess.Postgres;
 using CrispyOctoChainsaw.DataAccess.Postgres.Entities;
@@ -10,8 +12,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using Respawn;
-using System.Net.Http.Headers;
-using System.Security.Claims;
 using Xunit.Abstractions;
 
 namespace CrispyOctoChainsaw.IntegrationalTests.Tests
@@ -19,36 +19,50 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
     [Collection("Database collection")]
     public abstract class BaseControllerTest : IAsyncLifetime
     {
+        private static readonly string _baseDirectory = AppContext.BaseDirectory;
+        private static readonly string _path = Directory.GetParent(_baseDirectory).FullName;
+
         public BaseControllerTest(ITestOutputHelper outputHelper)
         {
-            var builder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.Test.json")
-                .AddUserSecrets(typeof(BaseControllerTest).Assembly)
-                .Build();
-
-            ConnectionString = builder.GetConnectionString("CrispyOctoChainsawDbContext");
-
             var app = new WebApplicationFactory<Program>()
                 .WithWebHostBuilder(builder =>
                 {
                     builder.ConfigureAppConfiguration((context, configurationBuilder) =>
                     {
                         var configuration = configurationBuilder
-                        .AddJsonFile("appsettings.Test.json")
-                        .AddUserSecrets(typeof(BaseControllerTest).Assembly)
-                        .Build();
+                            .SetBasePath(_path)
+                            .AddJsonFile("testsettings.json")
+                            .AddUserSecrets(typeof(BaseControllerTest).Assembly)
+                            .Build();
 
                         CourseAdminId = configuration
                            .GetSection("Secrets:CourseAdminId")
                            .Value;
 
+                        if (string.IsNullOrWhiteSpace(CourseAdminId))
+                        {
+                            throw new ArgumentException($"{nameof(CourseAdminId)} - is required. Please setup testsettings");
+                        }
+
                         UserId = configuration
                             .GetSection("Secrets:UserId")
                             .Value;
 
+                        if (string.IsNullOrWhiteSpace(UserId))
+                        {
+                            throw new ArgumentException($"{nameof(UserId)} - is required");
+                        }
+
                         JwtTokenSecret = configuration
                             .GetSection("JWTSecret:Secret")
                             .Value;
+
+                        if (string.IsNullOrWhiteSpace(JwtTokenSecret))
+                        {
+                            throw new ArgumentException($"{nameof(JwtTokenSecret)} - is required");
+                        }
+
+                        ConnectionString = configuration.GetConnectionString(nameof(CrispyOctoChainsawDbContext));
                     });
                 });
 
@@ -154,14 +168,14 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
         protected string CreateAccessToken(UserInformation information)
         {
             var accsessToken = JwtBuilder.Create()
-                      .WithAlgorithm(new HMACSHA256Algorithm())
-                      .WithSecret(JwtTokenSecret)
-                      .ExpirationTime(DateTimeOffset.UtcNow.AddHours(1).ToUnixTimeSeconds())
-                      .AddClaim(ClaimTypes.Name, information.Nickname)
-                      .AddClaim(ClaimTypes.NameIdentifier, information.UserId)
-                      .AddClaim(ClaimTypes.Role, information.Role)
-                      .WithVerifySignature(true)
-                      .Encode();
+                .WithAlgorithm(new HMACSHA256Algorithm())
+                .WithSecret(JwtTokenSecret)
+                .ExpirationTime(DateTimeOffset.UtcNow.AddHours(1).ToUnixTimeSeconds())
+                .AddClaim(ClaimTypes.Name, information.Nickname)
+                .AddClaim(ClaimTypes.NameIdentifier, information.UserId)
+                .AddClaim(ClaimTypes.Role, information.Role)
+                .WithVerifySignature(true)
+                .Encode();
 
             return accsessToken;
         }
