@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using Xunit.Abstractions;
 
@@ -15,26 +16,32 @@ namespace CrispyOctoChainsaw.IntegrationalTests
 
         private void PrintJson(HttpContent content)
         {
-            var streamContent = content.ReadAsStream();
-            var bytesBuffer = new byte[streamContent.Length];
-            streamContent.Read(bytesBuffer, 0, bytesBuffer.Length);
-
-            var stringContent = Encoding.UTF8.GetString(bytesBuffer);
-
-            if (stringContent is not null)
+            if (content.Headers.ContentType.MediaType != MediaTypeHeaderValue.Parse("multipart/form-data").MediaType)
             {
-                var json = JToken.Parse(stringContent).ToString();
-                _outputHelper.WriteLine(json);
+                var streamContent = content.ReadAsStream();
+                var bytesBuffer = new byte[streamContent.Length];
+                streamContent.Read(bytesBuffer, 0, bytesBuffer.Length);
+
+                var stringContent = Encoding.UTF8.GetString(bytesBuffer);
+
+                if (stringContent is not null)
+                {
+                    var json = JToken.Parse(stringContent).ToString();
+                    _outputHelper.WriteLine(json);
+                }
             }
         }
 
         private async Task PrintJsonAsync(HttpContent content)
         {
-            var stringContent = await content.ReadAsStringAsync();
-            if (stringContent is not null && stringContent.Length != 0)
+            if (content.Headers.ContentType.MediaType != MediaTypeHeaderValue.Parse("multipart/form-data").MediaType)
             {
-                var json = JToken.Parse(stringContent).ToString();
-                _outputHelper.WriteLine(json);
+                var stringContent = await content.ReadAsStringAsync();
+                if (stringContent is not null && stringContent.Length != 0)
+                {
+                    var json = JToken.Parse(stringContent).ToString();
+                    _outputHelper.WriteLine(json);
+                }
             }
         }
 

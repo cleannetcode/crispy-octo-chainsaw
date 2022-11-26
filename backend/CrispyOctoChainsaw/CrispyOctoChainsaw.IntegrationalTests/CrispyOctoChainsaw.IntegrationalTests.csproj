@@ -48,9 +48,16 @@
   </ItemGroup>
 
   <ItemGroup>
+  	<None Update="TestImages\TestBanner.jpg">
+  	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  	</None>
   	<None Update="testsettings.json">
   		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
   	</None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TestImages\" />
   </ItemGroup>
 
 </Project>

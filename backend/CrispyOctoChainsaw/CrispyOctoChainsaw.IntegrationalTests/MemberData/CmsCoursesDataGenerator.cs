@@ -9,9 +9,9 @@
 
             for (int i = 0; i < testCount; i++)
             {
-                var titleLength = BaseDataGenerator.GetInvalidLengthTitle();
-                var descriptionLength = BaseDataGenerator.GetInvalidLengthDescription();
-                var repositoryNameLength = BaseDataGenerator.GetInvalidLengthRepositoryName();
+                var titleLength = BaseDataGenerator.GetInvalidLengthCourseTitle();
+                var descriptionLength = BaseDataGenerator.GetInvalidLengthCourseDescription();
+                var repositoryNameLength = BaseDataGenerator.GetInvalidLengthCourseRepositoryName();
 
                 var titles = Enumerable.Range(0, 5)
                     .Select(x => StringFixture.GenerateRandomString(titleLength))
@@ -25,13 +25,13 @@
                     .Select(x => StringFixture.GenerateRandomString(repositoryNameLength))
                     .ToArray();
 
-                var title = BaseDataGenerator.MakeInvalidString(titles);
-                var description = BaseDataGenerator.MakeInvalidString(descriptions);
-                var repositoryName = BaseDataGenerator.MakeInvalidString(repositoryNames);
+                var title = BaseDataGenerator.MakeInvalidStringWithoutNull(titles);
+                var description = BaseDataGenerator.MakeInvalidStringWithoutNull(descriptions);
+                var repositoryName = BaseDataGenerator.MakeInvalidStringWithoutNull(repositoryNames);
 
                 yield return new object[]
                 {
-                    title, description, repositoryName
+                    title, description, repositoryName, Array.Empty<byte[]>()
                 };
             }
         }
