@@ -30,6 +30,7 @@ namespace CrispyOctoChainsaw.DataAccess.Postgres.Repositories
             {
                 return null;
             }
+
             return _mapper.Map<CourseEntity, Course>(course);
         }
     }

@@ -1,5 +1,4 @@
-﻿using CrispyOctoChainsaw.Domain.Errors;
-using CrispyOctoChainsaw.Domain.Model;
+﻿using CrispyOctoChainsaw.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.ComponentModel.DataAnnotations;
@@ -19,7 +18,12 @@ namespace CrispyOctoChainsaw.DataAccess.Postgres.Entities
         [StringLength(Course.MaxRepositoryNameLength)]
         public string RepositoryName { get; set; }
 
+        [StringLength(Course.MaxBannerNameLength)]
+        public string BannerName { get; set; }
+
         public Guid CourseAdminId { get; set; }
+
+        public ExerciseEntity[] Exercises { get; set; }
     }
 
     public class CourseEntityConfiguration : IEntityTypeConfiguration<CourseEntity>
@@ -38,6 +42,9 @@ namespace CrispyOctoChainsaw.DataAccess.Postgres.Entities
                 .IsRequired(true);
 
             builder.Property(x => x.RepositoryName)
+                .IsRequired(true);
+
+            builder.Property(x => x.BannerName)
                 .IsRequired(true);
         }
     }

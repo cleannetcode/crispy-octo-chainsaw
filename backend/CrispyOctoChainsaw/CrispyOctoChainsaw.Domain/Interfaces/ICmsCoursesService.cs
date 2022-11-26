@@ -12,5 +12,7 @@ namespace CrispyOctoChainsaw.Domain.Interfaces
         Task<Result<int>> EditCourse(int courseId, Course editCourse);
 
         Task<Result<int>> Delete(int courseId);
+
+        Task<Result<Exercise[]>> GetExercisesByCourseId(int courseId);
     }
 }

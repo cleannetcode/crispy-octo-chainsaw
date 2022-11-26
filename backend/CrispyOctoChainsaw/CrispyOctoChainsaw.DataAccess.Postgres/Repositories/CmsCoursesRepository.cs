@@ -82,5 +82,15 @@ namespace CrispyOctoChainsaw.DataAccess.Postgres
 
             return course.Value.Id;
         }
+
+        public async Task<Result<Exercise[]>> GetExercisesByCourseId(int courseId)
+        {
+            var exercises = await _context.Courses
+                .Where(x => x.Id == courseId)
+                .SelectMany(x => x.Exercises)
+                .ToArrayAsync();
+
+            return _mapper.Map<ExerciseEntity[], Exercise[]>(exercises);
+        }
     }
 }

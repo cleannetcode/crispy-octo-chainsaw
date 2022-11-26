@@ -2,11 +2,14 @@
 using System.Security.Claims;
 using AutoFixture;
 using CrispyOctoChainsaw.API;
+using CrispyOctoChainsaw.API.Contracts;
+using CrispyOctoChainsaw.API.Options;
 using CrispyOctoChainsaw.DataAccess.Postgres;
 using CrispyOctoChainsaw.DataAccess.Postgres.Entities;
 using JWT.Algorithms;
 using JWT.Builder;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +30,14 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
             var app = new WebApplicationFactory<Program>()
                 .WithWebHostBuilder(builder =>
                 {
+                    builder.ConfigureServices(service =>
+                    {
+                        service.Configure<FileSettings>(settings =>
+                        {
+                            settings.Path = "TestImages";
+                        });
+                    });
+
                     builder.ConfigureAppConfiguration((context, configurationBuilder) =>
                     {
                         var configuration = configurationBuilder
@@ -69,9 +80,13 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
             Client = app.CreateDefaultClient(new LoggingHandler(outputHelper));
             Fixture = new Fixture();
             DbContext = app.Services.CreateScope().ServiceProvider.GetRequiredService<CrispyOctoChainsawDbContext>();
+            var env = app.Services.CreateScope().ServiceProvider.GetRequiredService<IWebHostEnvironment>();
+            CleaningPath = Path.Combine(env.ContentRootPath, "TestImages");
         }
 
         protected HttpClient Client { get; set; }
+
+        protected string CleaningPath { get; set; }
 
         protected string CourseAdminId { get; set; }
 
@@ -133,6 +148,7 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
             var course = Fixture.Build<CourseEntity>()
                 .Without(x => x.Id)
                 .With(x => x.CourseAdminId, courseAdminId)
+                .Without(x => x.Exercises)
                 .Create();
 
             await DbContext.Courses.AddAsync(course);
@@ -140,6 +156,21 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
             DbContext.ChangeTracker.Clear();
 
             return course.Id;
+        }
+
+        protected async Task<int> MakeExercise(int courseId)
+        {
+            var exercise = Fixture.Build<ExerciseEntity>()
+                .Without(x => x.Id)
+                .Without(x => x.Course)
+                .With(x => x.CourseId, courseId)
+                .Create();
+
+            await DbContext.AddAsync(exercise);
+            await DbContext.SaveChangesAsync();
+            DbContext.ChangeTracker.Clear();
+
+            return exercise.Id;
         }
 
         protected async Task<(string AccessToken, string RefreshToken)> MakeSession()
@@ -163,6 +194,26 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
             DbContext.ChangeTracker.Clear();
 
             return (accessToken, refreshToken);
+        }
+
+        protected async Task<byte[]> MakeImage()
+        {
+            var fileBytes = File.ReadAllBytes(@"TestImages/TestBanner.jpg");
+            return fileBytes;
+        }
+
+        protected async Task<MultipartFormDataContent> MakeFormData(CreateCourseRequest request, byte[] image)
+        {
+            var httpContent = new MultipartFormDataContent("sdsvsv");
+            var fileContent = new ByteArrayContent(image);
+            fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/jpg");
+
+            httpContent.Add(new StringContent(request.Title), "Title");
+            httpContent.Add(new StringContent(request.Description), "Description");
+            httpContent.Add(new StringContent(request.RepositoryName), "RepositoryName");
+            httpContent.Add(fileContent, "image", "TestBanner.jpg");
+
+            return httpContent;
         }
 
         protected string CreateAccessToken(UserInformation information)
@@ -211,6 +262,12 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
                 await conn.OpenAsync();
                 await respawner.ResetAsync(conn);
             }
+
+            var directoryInfo = new DirectoryInfo(CleaningPath);
+            foreach (var file in directoryInfo.GetFiles())
+            {
+                file.Delete();
+            }
         }
 
         private async Task<Respawner> CreateRespawner()
@@ -227,4 +284,3 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
         }
     }
 }
-
