@@ -1,12 +1,28 @@
-﻿namespace CrispyOctoChainsaw.API.Contracts
+﻿using CrispyOctoChainsaw.Domain.Model;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+
+namespace CrispyOctoChainsaw.API.Contracts
 {
     // Contract for create course
     public class CreateCourseRequest
     {
-        public string Title { get; set; }
+        [Required]
+        [StringLength(Course.MaxTitleLength)]
+        [FromForm(Name = "title")]
+        public string? Title { get; set; }
 
-        public string Description { get; set; }
+        [Required]
+        [StringLength(Course.MaxDescriptionsLength)]
+        [FromForm(Name = "description")]
+        public string? Description { get; set; }
 
-        public string RepositoryName { get; set; }
+        [Required]
+        [StringLength(Course.MaxRepositoryNameLength)]
+        [FromForm(Name = "repositoryName")]
+        public string? RepositoryName { get; set; }
+
+        [FromForm(Name = "image")]
+        public IFormFile ImageFile { get; set; }
     }
 }
