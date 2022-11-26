@@ -10,6 +10,8 @@ namespace CrispyOctoChainsaw.API
         {
             CreateMap<User, GetUserResponse>();
             CreateMap<Course, GetCourseResponse>();
+            CreateMap<Course, GetCourseResponse>();
+            CreateMap<Exercise, GetExerciseResponse>();
         }
     }
 }
