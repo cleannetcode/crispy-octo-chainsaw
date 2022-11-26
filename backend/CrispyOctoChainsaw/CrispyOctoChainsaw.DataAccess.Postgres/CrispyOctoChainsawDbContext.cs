@@ -17,6 +17,8 @@ namespace CrispyOctoChainsaw.DataAccess.Postgres
 
         public DbSet<SessionEntity> Sessions { get; set; }
 
+        public DbSet<ExerciseEntity> Exercises { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(typeof(CrispyOctoChainsawDbContext).Assembly);
