@@ -8,6 +8,7 @@ import { AuthPage } from './pages/AuthPage/AuthPage';
 import TestPage from './pages/TestPage/TestPage';
 import { CoursePage } from './pages/CoursePage/CoursePage';
 import { ExercisePage } from './pages/ExercisePage/ExercisePage';
+import { EditCoursePage } from './pages/EditCoursePage/EditCoursePage';
 
 function App() {
   return (
@@ -54,6 +55,14 @@ function App() {
           element={
             <>
               <ExercisePage />
+            </>
+          }
+        />
+        <Route
+          path='course'
+          element={
+            <>
+              <EditCoursePage />
             </>
           }
         />

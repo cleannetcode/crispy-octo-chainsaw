@@ -16,6 +16,7 @@ const beforeUpload = (file: RcFile) => {
     message.error('You can only upload JPG/PNG file!');
   }
   const isLt2M = file.size / 1024 / 1024 < 2;
+  console.log(file.size / 1024 / 1024);
   if (!isLt2M) {
     message.error('Image must smaller than 2MB!');
   }
@@ -43,6 +44,10 @@ export function UploadImage() {
     }
   };
 
+  const handlImage = (info: UploadChangeParam<UploadFile>) => {
+    console.log(info.fileList[0]);
+  };
+
   const uploadButton = (
     <div>
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -61,7 +66,7 @@ export function UploadImage() {
         onChange={handleChange}
       >
         {imageUrl ? (
-          <img src={imageUrl} alt='avatar' style={{ width: '100%' }} />
+          <img src={imageUrl} alt='avatar' style={{ objectFit: 'cover' }} />
         ) : (
           uploadButton
         )}

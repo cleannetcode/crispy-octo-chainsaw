@@ -1,5 +1,5 @@
 import { Button, Form, Input, Tooltip } from 'antd';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { UploadImage } from '../UploadImage';
 import './CourseFormStyles.css';
 import { CourseFormProps } from './CourseFormProps';
@@ -9,6 +9,10 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 const { TextArea } = Input;
 
 export function CourseForm(props: CourseFormProps) {
+  const [image, setImage] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string>('');
+  const fileInputRef =
+    useRef<HTMLInputElement>() as React.MutableRefObject<HTMLInputElement>;
   const {
     title,
     description,
@@ -18,18 +22,65 @@ export function CourseForm(props: CourseFormProps) {
     handleRepositoryName,
   } = useCourseForm();
 
+  useEffect(() => {
+    if (image) {
+      handlePreview(image as File);
+    }
+  }, [image]);
+
+  const handlePreview = (image: File) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreview(reader.result as string);
+    };
+    reader.readAsDataURL(image);
+  };
+
+  const handleImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file && file.type.substring(0, 5) === 'image') {
+      setImage(file);
+    }
+  };
+
   const onFinish = () => {
-    props.createCourse({
-      title: title,
-      description: description,
-      repositoryName: repositoryName,
-    });
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('repositoryName', repositoryName);
+    formData.append('image', image as File);
+    props.createCourse(formData);
   };
 
   return (
-    <div className='create-form-course'>
+    <div className='create-course-form'>
       <h3>Banner</h3>
-      <UploadImage />
+      {preview ? (
+        <img
+          src={preview}
+          style={{ objectFit: 'scale-down' }}
+          onClick={() => setPreview('')}
+        />
+      ) : (
+        <div className='button'>
+          <button
+            onClick={(event) => {
+              event.preventDefault();
+              fileInputRef.current?.click();
+            }}
+          >
+            Add image
+          </button>
+        </div>
+      )}
+
+      <input
+        type='file'
+        style={{ display: 'none' }}
+        ref={fileInputRef}
+        accept='image/*'
+        onChange={handleImage}
+      />
       <Form
         name='create_course'
         initialValues={{ remember: true }}
@@ -39,8 +90,10 @@ export function CourseForm(props: CourseFormProps) {
           name='title'
           rules={[{ required: true, message: 'Please input course title!' }]}
         >
-          <h3>Title</h3>
+          {/* <h3>Title</h3> */}
           <Input
+            type='title'
+            value={title}
             onChange={(e) => handleTitle(e.target.value)}
             maxLength={500}
           />
@@ -51,8 +104,9 @@ export function CourseForm(props: CourseFormProps) {
             { required: true, message: 'Please input course description!' },
           ]}
         >
-          <h3>Description</h3>
+          {/* <h3>Description</h3> */}
           <TextArea
+            value={description}
             showCount
             maxLength={1500}
             onChange={(e) => handleDescription(e.target.value)}
@@ -67,19 +121,20 @@ export function CourseForm(props: CourseFormProps) {
             },
           ]}
         >
-          <div className='flex-contrainer-repository-name'>
-            <h3>Repository name</h3>
-            <Tooltip
+          {/* <div className='flex-contrainer-repository-name'> */}
+          {/* <h3>Repository name</h3> */}
+          {/* <Tooltip
               placement='right'
               title={
                 'example: https://github.com/YouAccountName/RepositoryName'
               }
             >
               <QuestionCircleOutlined />
-            </Tooltip>
-          </div>
-
+            </Tooltip> */}
+          {/* </div> */}
           <Input
+            type='repositoryName'
+            value={repositoryName}
             maxLength={50}
             onChange={(e) => handleRepositoryName(e.target.value)}
           />
