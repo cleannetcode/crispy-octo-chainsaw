@@ -8,13 +8,19 @@ using CrispyOctoChainsaw.Domain.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var path = builder.Configuration.GetSection("FileSettings:Path").Value;
+
 builder.Services.Configure<JWTSecretOptions>(
     builder.Configuration.GetSection(JWTSecretOptions.JWTSecret));
+
+builder.Services.Configure<FileSettings>(
+    builder.Configuration.GetSection(nameof(FileSettings)));
 
 builder.Services.AddScoped<ICmsCoursesService, CmsCoursesService>();
 builder.Services.AddScoped<ICmsCoursesRepository, CmsCoursesRepository>();
@@ -43,6 +49,8 @@ builder.Services.AddScoped<ICoursesRepository, CourseRepository>();
 builder.Services.AddScoped<ISystemAdminsService, SystemAdminsService>();
 builder.Services.AddScoped<ICoursesService, CoursesService>();
 builder.Services.AddScoped<ISessionsRepository, SessionsRepository>();
+builder.Services.AddScoped<ICmsExercisesService, CmsExercisesService>();
+builder.Services.AddScoped<ICmsExercisesRepository, CmsExercisesRepository>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
@@ -76,6 +84,12 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, path)),
+    RequestPath = $"/{path}"
+});
 
 app.MapControllers();
 
