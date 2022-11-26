@@ -1,4 +1,4 @@
-﻿using CrispyOctoChainsaw.Domain;
+﻿using CrispyOctoChainsaw.Domain.Model;
 
 namespace CrispyOctoChainsaw.UnitTests.MemberData
 {

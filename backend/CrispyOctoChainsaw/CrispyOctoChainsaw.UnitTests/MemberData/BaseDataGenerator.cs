@@ -24,5 +24,11 @@
 
             return invalidString;
         }
+
+        public static int MakeInvalidId()
+        {
+            var rnd = new Random();
+            return -rnd.Next(0, 10);
+        }
     }
 }
