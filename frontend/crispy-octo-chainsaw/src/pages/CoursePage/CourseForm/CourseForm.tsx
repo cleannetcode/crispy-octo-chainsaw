@@ -62,16 +62,15 @@ export function CourseForm(props: CourseFormProps) {
           onClick={() => setPreview('')}
         />
       ) : (
-        <div className='button'>
-          <button
-            onClick={(event) => {
-              event.preventDefault();
-              fileInputRef.current?.click();
-            }}
-          >
-            Add image
-          </button>
-        </div>
+        <button
+          className='button-image'
+          onClick={(event) => {
+            event.preventDefault();
+            fileInputRef.current?.click();
+          }}
+        >
+          Add image
+        </button>
       )}
 
       <input
@@ -86,11 +85,11 @@ export function CourseForm(props: CourseFormProps) {
         initialValues={{ remember: true }}
         onFinish={onFinish}
       >
+        <h3>Title</h3>
         <Form.Item
           name='title'
           rules={[{ required: true, message: 'Please input course title!' }]}
         >
-          {/* <h3>Title</h3> */}
           <Input
             type='title'
             value={title}
@@ -98,13 +97,13 @@ export function CourseForm(props: CourseFormProps) {
             maxLength={500}
           />
         </Form.Item>
+        <h3>Description</h3>
         <Form.Item
           name='description'
           rules={[
             { required: true, message: 'Please input course description!' },
           ]}
         >
-          {/* <h3>Description</h3> */}
           <TextArea
             value={description}
             showCount
@@ -112,6 +111,15 @@ export function CourseForm(props: CourseFormProps) {
             onChange={(e) => handleDescription(e.target.value)}
           />
         </Form.Item>
+        <div className='flex-contrainer-repository-name'>
+          <h3>Repository name</h3>
+          <Tooltip
+            placement='right'
+            title={'example: https://github.com/YouAccountName/RepositoryName'}
+          >
+            <QuestionCircleOutlined />
+          </Tooltip>
+        </div>
         <Form.Item
           name='repositoryName'
           rules={[
@@ -121,17 +129,6 @@ export function CourseForm(props: CourseFormProps) {
             },
           ]}
         >
-          {/* <div className='flex-contrainer-repository-name'> */}
-          {/* <h3>Repository name</h3> */}
-          {/* <Tooltip
-              placement='right'
-              title={
-                'example: https://github.com/YouAccountName/RepositoryName'
-              }
-            >
-              <QuestionCircleOutlined />
-            </Tooltip> */}
-          {/* </div> */}
           <Input
             type='repositoryName'
             value={repositoryName}

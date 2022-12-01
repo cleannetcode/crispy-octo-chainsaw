@@ -1,37 +1,34 @@
 import React from 'react';
 import PageWrapper from '../../components/PageWrapper';
+import { useCourseService } from '../../Services/CourseService/useCourseService';
+import { StorageAuthData } from '../../StorageAuthData';
 import { CourseForm } from './CourseForm/CourseForm';
 
 export interface CreateCourseData {
-  // title: string;
-  // description: string;
-  // repositoryName: string;
-  // image: File | undefined;
   formData: FormData;
 }
 
-const token = '';
+const token = sessionStorage.getItem(StorageAuthData.AccessToken);
 
 export function CoursePage() {
-  const createCourse = async (data: FormData) => {
-    const response = await fetch('https://localhost:64936/api/cms/courses', {
-      method: 'post',
-      headers: new Headers({
-        // 'Content-type': 'multipart/form-data',
-        Authorization: `Bearer ${token}`,
-        // Accept: 'application/json, application/xml, text/plain, text/html, *.*',
-      }),
-      body: data,
-    });
-    if (!response.ok) {
-    }
-  };
+  const courseServices = useCourseService();
+  // const createCourse = async (data: FormData) => {
+  //   const response = await fetch('https://localhost:64936/api/cms/courses', {
+  //     method: 'post',
+  //     headers: new Headers({
+  //       Authorization: `Bearer ${token}`,
+  //     }),
+  //     body: data,
+  //   });
+  //   if (!response.ok) {
+  //   }
+  // };
 
   return (
     <>
       <PageWrapper>
         <div className='create-course-page'>
-          <CourseForm createCourse={createCourse} />
+          <CourseForm createCourse={courseServices.createCourse} />
         </div>
       </PageWrapper>
     </>

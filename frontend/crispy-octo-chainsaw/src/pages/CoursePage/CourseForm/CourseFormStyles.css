@@ -16,24 +16,16 @@
   align-items: center;
 }
 
-img,
-button {
+.banner-img {
   width: 250px;
   height: 250px;
   justify-items: center;
-  /* align-content: center; */
-  /* align-self: center; */
-  /* justify-self: end; */
-  /* border-radius: 50%; */
   cursor: pointer;
 }
 
-/* button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  border: none;
-  background: #fef289;
-  color: #000;
-} */
+.button-image {
+  width: 250px;
+  height: 250px;
+  cursor: pointer;
+  justify-items: center;
+}
