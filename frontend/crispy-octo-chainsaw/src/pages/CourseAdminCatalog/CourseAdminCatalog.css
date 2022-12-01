@@ -1,0 +1,7 @@
+.course-admin-page-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  column-gap: 32px;
+  padding: 30px;
+}
