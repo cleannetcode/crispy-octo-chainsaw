@@ -12,7 +12,7 @@ const token = '';
 
 export function ExercisePage() {
   const createExercise = async (data: CreateExerciseData) => {
-    const response = await fetch('https://localhost:64935/api/cms/courses', {
+    const response = await fetch('https://localhost:64935/api/cms/exercise', {
       method: 'post',
       headers: new Headers({
         'Content-type': 'application/json',

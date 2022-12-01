@@ -31,29 +31,30 @@ export function ExerciseForm(props: ExerciseProps) {
         initialValues={{ remember: true }}
         onFinish={onFinish}
       >
+        <h3>Title</h3>
         <Form.Item
           name='title'
           rules={[{ required: true, message: 'Please input exercise title!' }]}
         >
-          <h3>Title</h3>
           <Input
             onChange={(e) => handleTitle(e.target.value)}
             maxLength={500}
           />
         </Form.Item>
+        <h3>Description</h3>
         <Form.Item
           name='description'
           rules={[
             { required: true, message: 'Please input exercise description!' },
           ]}
         >
-          <h3>Description</h3>
           <TextArea
             showCount
             maxLength={1500}
             onChange={(e) => handleDescription(e.target.value)}
           />
         </Form.Item>
+        <h3>Branch name</h3>
         <Form.Item
           name='branchName'
           rules={[
@@ -63,7 +64,6 @@ export function ExerciseForm(props: ExerciseProps) {
             },
           ]}
         >
-          <h3>Branch name</h3>
           <Input
             maxLength={50}
             onChange={(e) => handleBranchName(e.target.value)}
