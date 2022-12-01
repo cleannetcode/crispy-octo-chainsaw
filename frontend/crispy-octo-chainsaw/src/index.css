@@ -73,3 +73,16 @@ code {
 .nickname-container {
   margin-right: 30px;
 }
+
+h1 {
+  font-size: 26px;
+  line-height: 30px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mb-15 {
+  margin-bottom: 20px;
+}

@@ -4,15 +4,14 @@ import LoginButton from './LoginButton';
 import LogoutButton from './LogoutButton';
 import { Token } from '../pages/AuthPage/AuthPage';
 import Nickname from './Nickname';
+import { StorageAuthData } from '../StorageAuthData';
 const { Header } = Layout;
 
 function HeaderComponent() {
-  const token: string | null = sessionStorage.getItem('authtokensuser');
-  let nickname: string = '';
-  if (token !== null) {
-    const parseToken: Token = JSON.parse(token ?? '');
-    nickname = parseToken.nickname;
-  }
+  const token: string | null = sessionStorage.getItem(
+    StorageAuthData.AccessToken
+  );
+  let nickname: string = sessionStorage.getItem(StorageAuthData.Nickname) ?? '';
 
   const renderLogin = () => {
     return (

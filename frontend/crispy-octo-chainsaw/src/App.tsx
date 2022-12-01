@@ -5,17 +5,19 @@ import { Layout } from 'antd';
 import HeaderComponent from './components/HeaderComponent';
 import 'antd/dist/antd.min.css';
 import { AuthPage } from './pages/AuthPage/AuthPage';
-import TestPage from './pages/TestPage/TestPage';
 import { CoursePage } from './pages/CoursePage/CoursePage';
 import { ExercisePage } from './pages/ExercisePage/ExercisePage';
 import { EditCoursePage } from './pages/EditCoursePage/EditCoursePage';
+import { PageNames } from './PageName';
+import { CourseAdminCatalogPage } from './pages/CourseAdminCatalog/CourseAdminCatalogPage';
+import { AdminRegistraionPage } from './pages/AdminRegistrationPage/AdminRegistraionPage';
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route
-          path='/'
+          path={PageNames.Mane}
           element={
             <div className='App'>
               <header>
@@ -27,7 +29,7 @@ function App() {
           }
         />
         <Route
-          path='login'
+          path={PageNames.Login}
           element={
             <div>
               <AuthPage />
@@ -35,23 +37,24 @@ function App() {
           }
         />
         <Route
-          path='test'
+          path={PageNames.CourseAdminRegistraation}
           element={
             <div>
-              <TestPage />
+              <AdminRegistraionPage />
             </div>
           }
         />
         <Route
-          path='createcourse'
+          path={PageNames.CreteCourse}
           element={
             <>
               <CoursePage />
             </>
           }
         />
+        <Route path={`${PageNames.CreteCourse}:id`} element={<></>} />
         <Route
-          path='createexercise'
+          path={PageNames.CreteExercise}
           element={
             <>
               <ExercisePage />
@@ -59,10 +62,18 @@ function App() {
           }
         />
         <Route
-          path='course'
+          path={PageNames.EditeCourse}
           element={
             <>
               <EditCoursePage />
+            </>
+          }
+        />
+        <Route
+          path={PageNames.CourseAdminCatalog}
+          element={
+            <>
+              <CourseAdminCatalogPage />
             </>
           }
         />
