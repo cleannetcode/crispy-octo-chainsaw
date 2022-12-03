@@ -97,7 +97,7 @@ namespace CrispyOctoChainsaw.DataAccess.Postgres
         {
             if (courseId <= 0)
             {
-                return Result.Failure<Course>($"{nameof(courseId)} is not valid.");
+                return Result.Failure<Course>($"{nameof(courseId)} not valid.");
             }
 
             var courseEntity = await _context.Courses
@@ -107,7 +107,7 @@ namespace CrispyOctoChainsaw.DataAccess.Postgres
 
             if (courseEntity == null)
             {
-                return Result.Failure<Course>("Course is not found.");
+                return Result.Failure<Course>("Course not found.");
             }
 
             return _mapper.Map<CourseEntity, Course>(courseEntity);

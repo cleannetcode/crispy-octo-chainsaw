@@ -77,34 +77,18 @@ namespace CrispyOctoChainsaw.BusinessLogic.Services
             return exercises.Value;
         }
 
-        public async Task<Result<Course>> GetById(Guid userId, int courseId)
+        public async Task<Result<Course>> GetById(int courseId)
         {
-            var failure = Result.Success();
-            if (userId == Guid.Empty)
-            {
-                failure = Result.Failure<Course>($"{nameof(userId)} is not valid.");
-            }
-
             var result = await _repository.FindCourseById(courseId);
             if (result.IsFailure)
             {
-                failure = Result.Combine(
-                    failure,
-                    Result.Failure<Course>("Course not found."),
-                    Result.Failure<Course>(result.Error));
+                return Result.Failure<Course>("Course not found.");
             }
 
             var course = await _repository.GetById(result.Value.Id);
             if (course.IsFailure)
             {
-                failure = Result.Combine(
-                    failure,
-                    Result.Failure<Course>(course.Error));
-            }
-
-            if (failure.IsFailure)
-            {
-                return Result.Failure<Course>(failure.Error);
+                return Result.Failure<Course>(course.Error);
             }
 
             return course.Value;

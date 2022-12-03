@@ -68,7 +68,7 @@ namespace CrispyOctoChainsaw.API.Controllers
         {
             var userId = UserId.Value;
 
-            var course = await _service.GetById(userId, courseId);
+            var course = await _service.GetById(courseId);
             if (course.IsFailure)
             {
                 _logger.LogError("{errors}", course.Error);

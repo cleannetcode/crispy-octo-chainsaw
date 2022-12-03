@@ -29,6 +29,38 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
         }
 
         [Fact]
+        public async Task GetCourseById_ShouldReturnOk()
+        {
+            // arrange
+            await CourseAdminLogin();
+            var courseId = await MakeCourse();
+            await MakeExercise(courseId);
+
+            // act
+            var response = await Client.GetAsync($"api/cms/courses/{courseId}");
+
+            // assert
+            response.EnsureSuccessStatusCode();
+        }
+
+        [Theory]
+        [MemberData(
+            nameof(CmsCoursesDataGenerator.GenerateSetInvalidCourseId),
+            parameters: 10,
+            MemberType = typeof(CmsCoursesDataGenerator))]
+        public async Task GetCourseById_CourseIdInvalid_ShouldReturnBadRequest(int courseId)
+        {
+            await CourseAdminLogin();
+            await MakeCourse();
+
+            // act
+            var response = await Client.GetAsync($"api/cms/courses/{courseId}");
+
+            // assert
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+        [Fact]
         public async Task GetExercises_ShouldReturnOk()
         {
             // arrange
