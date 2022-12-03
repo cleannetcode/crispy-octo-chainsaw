@@ -23,7 +23,7 @@ namespace CrispyOctoChainsaw.DataAccess.Postgres.Entities
 
         public Guid CourseAdminId { get; set; }
 
-        public ExerciseEntity[] Exercises { get; set; }
+        public ICollection<ExerciseEntity> Exercises { get; set; } = new List<ExerciseEntity>();
     }
 
     public class CourseEntityConfiguration : IEntityTypeConfiguration<CourseEntity>

@@ -39,7 +39,7 @@ namespace CrispyOctoChainsaw.Domain.Model
 
         public Guid CourseAdminId { get; }
 
-        public Exercise[] Exercises { get; set; }
+        public Exercise[] Exercises { get; init; }
 
         public static Result<Course> Create(
             string title,

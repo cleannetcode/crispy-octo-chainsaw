@@ -57,6 +57,28 @@ namespace CrispyOctoChainsaw.API.Controllers
         }
 
         /// <summary>
+        /// Get course by id.
+        /// </summary>
+        /// <param name="courseId">Course id.</param>
+        /// <returns>Course.</returns>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetCourseResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpGet("{courseId:int}")]
+        public async Task<IActionResult> GetCourseById([FromRoute] int courseId)
+        {
+            var userId = UserId.Value;
+
+            var course = await _service.GetById(userId, courseId);
+            if (course.IsFailure)
+            {
+                _logger.LogError("{errors}", course.Error);
+                return BadRequest(course.Error);
+            }
+
+            return Ok(course.Value);
+        }
+
+        /// <summary>
         /// Get exercise from course by id.
         /// </summary>
         /// <param name="courseId">Course id.</param>

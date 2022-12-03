@@ -92,5 +92,25 @@ namespace CrispyOctoChainsaw.DataAccess.Postgres
 
             return _mapper.Map<ExerciseEntity[], Exercise[]>(exercises);
         }
+
+        public async Task<Result<Course>> GetById(int courseId)
+        {
+            if (courseId <= 0)
+            {
+                return Result.Failure<Course>($"{nameof(courseId)} is not valid.");
+            }
+
+            var courseEntity = await _context.Courses
+                .AsNoTracking()
+                .Include(x => x.Exercises)
+                .FirstOrDefaultAsync(x => x.Id == courseId);
+
+            if (courseEntity == null)
+            {
+                return Result.Failure<Course>("Course is not found.");
+            }
+
+            return _mapper.Map<CourseEntity, Course>(courseEntity);
+        }
     }
 }

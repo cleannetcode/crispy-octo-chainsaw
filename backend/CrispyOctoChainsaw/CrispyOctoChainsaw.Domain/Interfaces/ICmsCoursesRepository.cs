@@ -9,6 +9,8 @@ namespace CrispyOctoChainsaw.Domain.Interfaces
 
         Task<Result<Course>> FindCourseById(int courseId);
 
+        Task<Result<Course>> GetById(int courseId);
+
         Task<Result<int>> Create(Course newCourse, Guid curseAdminI);
 
         Task<Result<int>> Edit(Course editCourse);
