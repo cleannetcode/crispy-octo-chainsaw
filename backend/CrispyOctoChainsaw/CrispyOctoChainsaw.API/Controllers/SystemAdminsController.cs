@@ -18,7 +18,7 @@ namespace CrispyOctoChainsaw.API.Controllers
             ILogger<SystemAdminsController> logger)
         {
             _systemAdminService = systemAdminService;
-            _mapper = mapper;   
+            _mapper = mapper;
             _logger = logger;
         }
 

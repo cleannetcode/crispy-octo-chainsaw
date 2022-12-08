@@ -24,7 +24,7 @@ namespace CrispyOctoChainsaw.BusinessLogic.Services
 
             if (course == null)
             {
-                return Result.Failure<Course?>($"Course with id : {courseId} not found");
+                return Result.Failure<Course>($"Course with id : {courseId} not found");
             }
 
             return course;

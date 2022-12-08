@@ -11,7 +11,7 @@ namespace CrispyOctoChainsaw.API.Contracts
 
         public string Description { get; set; }
 
-        public string RepositoryName { get; }
+        public string RepositoryName { get; set; }
 
         public string BannerName { get; set; }
 
