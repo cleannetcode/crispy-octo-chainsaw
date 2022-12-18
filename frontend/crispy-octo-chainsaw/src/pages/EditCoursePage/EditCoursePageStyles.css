@@ -1,18 +1,19 @@
 .site-page-header {
   border: 1px solid rgb(235, 237, 240);
-  width: 1000px;
+  background-color: white;
+  width: 100%;
+  margin-bottom: 80px;
 }
 
 .edit-course-page {
   display: flex;
+  padding: 70px 220px 100vh;
   flex-direction: column;
   align-items: center;
-  /* justify-content: center; */
-  height: 70vh;
-  background: #fff;
 }
 
 .course-description {
   border: 1px solid rgb(235, 237, 240);
-  width: 1000px;
+  background-color: white;
+  padding: 42px 24px 42px;
 }
