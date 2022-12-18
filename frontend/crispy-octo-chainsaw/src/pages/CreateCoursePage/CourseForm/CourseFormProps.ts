@@ -1,4 +1,4 @@
-import { CreateCourseData } from '../CoursePage';
+import { CreateCourseData } from '../CreateCoursePage';
 
 export interface CourseFormProps {
   createCourse: (data: FormData) => void;

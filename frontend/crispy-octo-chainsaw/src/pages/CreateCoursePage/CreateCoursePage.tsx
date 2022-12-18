@@ -10,7 +10,7 @@ export interface CreateCourseData {
 
 const token = sessionStorage.getItem(StorageAuthData.AccessToken);
 
-export function CoursePage() {
+export function CreateCoursePage() {
   const courseServices = useCourseService();
   // const createCourse = async (data: FormData) => {
   //   const response = await fetch('https://localhost:64936/api/cms/courses', {

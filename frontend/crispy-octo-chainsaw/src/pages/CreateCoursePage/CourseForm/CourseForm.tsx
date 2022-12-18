@@ -1,16 +1,17 @@
 import { Button, Form, Input, Tooltip } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
-import { UploadImage } from '../UploadImage';
 import './CourseFormStyles.css';
 import { CourseFormProps } from './CourseFormProps';
 import { useCourseForm } from './useCourseForm';
 import { QuestionCircleOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
 const { TextArea } = Input;
 
 export function CourseForm(props: CourseFormProps) {
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string>('');
+  const navigate = useNavigate();
   const fileInputRef =
     useRef<HTMLInputElement>() as React.MutableRefObject<HTMLInputElement>;
   const {
@@ -50,6 +51,7 @@ export function CourseForm(props: CourseFormProps) {
     formData.append('repositoryName', repositoryName);
     formData.append('image', image as File);
     props.createCourse(formData);
+    navigate(-1);
   };
 
   return (
@@ -57,6 +59,7 @@ export function CourseForm(props: CourseFormProps) {
       <h3>Banner</h3>
       {preview ? (
         <img
+          className='banner-img'
           src={preview}
           style={{ objectFit: 'scale-down' }}
           onClick={() => setPreview('')}

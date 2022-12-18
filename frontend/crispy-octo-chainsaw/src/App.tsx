@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'antd/dist/antd.min.css';
 import { AuthPage } from './pages/AuthPage/AuthPage';
-import { CreateCoursePage } from './pages/CoursePage/CreateCoursePage';
+import { CreateCoursePage } from './pages/CreateCoursePage/CreateCoursePage';
 import { ExercisePage } from './pages/ExercisePage/ExercisePage';
 import { EditCoursePage } from './pages/EditCoursePage/EditCoursePage';
 import { PageRoots } from './PageRoots';

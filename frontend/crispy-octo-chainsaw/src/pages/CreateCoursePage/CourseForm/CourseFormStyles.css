@@ -17,8 +17,9 @@
 }
 
 .banner-img {
-  width: 250px;
+  width: auto;
   height: 250px;
+  overflow: hidden;
   justify-items: center;
   cursor: pointer;
 }
