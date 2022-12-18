@@ -86,3 +86,11 @@ h1 {
 .mb-15 {
   margin-bottom: 20px;
 }
+
+.pb-25 {
+  padding-bottom: 25px;
+}
+
+/* .ant-card-meta {
+  justify-content: center;
+} */

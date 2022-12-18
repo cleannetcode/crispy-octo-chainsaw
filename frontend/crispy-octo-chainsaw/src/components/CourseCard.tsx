@@ -3,9 +3,16 @@ import {
   EditOutlined,
   EllipsisOutlined,
   SettingOutlined,
+  CloseCircleOutlined,
 } from '@ant-design/icons';
-import { Avatar, Card } from 'antd';
+import { Avatar, Card, Checkbox } from 'antd';
 import Meta from 'antd/lib/card/Meta';
+import { Link } from 'react-router-dom';
+import { PageRoots } from '../PageRoots';
+import {
+  Course,
+  useCourseService,
+} from '../Services/CourseService/useCourseService';
 
 interface GroupCardProps {
   id: number;
@@ -13,29 +20,62 @@ interface GroupCardProps {
   description: string;
   repositoryName: string;
   bannerName: string;
+  handleIsClick: () => void;
 }
 
-const imagePath: string = 'https://localhost:64936/Images';
+// const imagePath: string = 'https://localhost:64936/Images';
+const imagePath: string = 'Images';
 
 export function CourseCard(props: GroupCardProps) {
-  console.log(props.bannerName);
+  const course: Course = {
+    id: props.id,
+    title: props.title,
+    description: props.description,
+    repositoryName: props.repositoryName,
+    bannerName: props.bannerName,
+    exercises: [],
+  };
+
+  const services = useCourseService();
+
+  const handleDeleteCourse = async () => {
+    await services.deleteCourse(props.id);
+    props.handleIsClick();
+  };
 
   return (
     <Card
       key={props.id}
-      style={{ width: 300, borderRadius: '20px', overflow: 'hidden' }}
+      style={{
+        width: 350,
+        borderRadius: '15px',
+        overflow: 'hidden',
+      }}
       hoverable={true}
-      cover={<img alt='example' src={`${imagePath}/${props.bannerName}`} />}
+      cover={
+        <div style={{ overflow: 'hidden', height: '200px' }}>
+          <Link to={`${PageRoots.Course}/${props.id}`} state={course}>
+            <img
+              alt='example'
+              style={{ objectFit: 'cover', height: '100%', width: '100%' }}
+              src={`${imagePath}/${props.bannerName}`}
+            />
+          </Link>
+        </div>
+      }
       actions={[
-        <SettingOutlined key='setting' />,
         <EditOutlined key='edit' />,
-        <EllipsisOutlined key='ellipsis' />,
+        <CloseCircleOutlined
+          key='delete'
+          onClick={async () => await handleDeleteCourse()}
+        />,
       ]}
+      bodyStyle={{ height: '120px' }}
     >
       <Meta
-        avatar={<Avatar src='https://joeschmoe.io/api/v1/random' />}
-        title={props.title}
-        description={props.description}
+        // avatar={<Avatar src='https://joeschmoe.io/api/v1/random' />}
+        title={<div style={{ whiteSpace: 'break-spaces' }}>{props.title}</div>}
+        description={<div style={{}}>Description</div>}
       />
     </Card>
   );

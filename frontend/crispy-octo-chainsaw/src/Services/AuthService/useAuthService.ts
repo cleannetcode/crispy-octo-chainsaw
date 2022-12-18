@@ -1,4 +1,4 @@
-import { PageNames } from '../../PageName';
+import { PageRoots } from '../../PageRoots';
 import { useNavigate } from 'react-router-dom';
 import { StorageAuthData } from '../../StorageAuthData';
 
@@ -92,7 +92,7 @@ export const useAuthService = (): AuthService => {
     if (response.ok) {
       const tokens: AuthData = await response.json();
       setAuthDataToStorage(tokens);
-      navigate(PageNames.Mane);
+      navigate(PageRoots.Main);
     }
   };
 

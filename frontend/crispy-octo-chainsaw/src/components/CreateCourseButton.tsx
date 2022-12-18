@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { Button } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
-import { PageNames } from '../PageName';
+import { PageRoots } from '../PageRoots';
+import { Link } from 'react-router-dom';
 
 export function CreateCourseButton() {
-  const [size, setSize] = useState<SizeType>('middle');
+  const [size, setSize] = useState<SizeType>('large');
 
   return (
-    <Button size={size} href={PageNames.CreteCourse}>
-      Create course
-    </Button>
+    <Link to={`/${PageRoots.CreteCourse}`}>
+      <Button size={size} style={{ background: 'yellow' }}>
+        Create course
+      </Button>
+    </Link>
   );
 }

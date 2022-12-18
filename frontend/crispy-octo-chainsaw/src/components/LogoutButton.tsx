@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import { ImportOutlined } from '@ant-design/icons';
-import { PageNames } from '../PageName';
+import { PageRoots } from '../PageRoots';
 import { StorageAuthData } from '../StorageAuthData';
 
 function LogoutButton() {
@@ -21,7 +21,7 @@ function LogoutButton() {
       onClick={() => {
         logout();
       }}
-      href={PageNames.Mane}
+      href={PageRoots.Main}
     >
       Logout
     </Button>

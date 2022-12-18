@@ -1,68 +1,48 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Layout } from 'antd';
-import HeaderComponent from './components/HeaderComponent';
 import 'antd/dist/antd.min.css';
 import { AuthPage } from './pages/AuthPage/AuthPage';
-import { CoursePage } from './pages/CoursePage/CoursePage';
+import { CreateCoursePage } from './pages/CoursePage/CreateCoursePage';
 import { ExercisePage } from './pages/ExercisePage/ExercisePage';
 import { EditCoursePage } from './pages/EditCoursePage/EditCoursePage';
-import { PageNames } from './PageName';
+import { PageRoots } from './PageRoots';
 import { CourseAdminCatalogPage } from './pages/CourseAdminCatalog/CourseAdminCatalogPage';
 import { AdminRegistraionPage } from './pages/AdminRegistrationPage/AdminRegistraionPage';
+import { MainPage } from './pages/MainPage/MainPage';
+import { UserCoursePage } from './pages/UserCoursePage/UserCoursePage';
 
 function App() {
   return (
     <Router>
       <Routes>
+        <Route path={PageRoots.Main} element={<MainPage />} />
         <Route
-          path={PageNames.Mane}
+          path={PageRoots.Login}
           element={
-            <div className='App'>
-              <header>
-                <Layout>
-                  <HeaderComponent />
-                </Layout>
-              </header>
-            </div>
-          }
-        />
-        <Route
-          path={PageNames.Login}
-          element={
-            <div>
+            <>
               <AuthPage />
-            </div>
+            </>
           }
         />
         <Route
-          path={PageNames.CourseAdminRegistraation}
+          path={PageRoots.CourseAdminRegistraation}
           element={
-            <div>
+            <>
               <AdminRegistraionPage />
-            </div>
-          }
-        />
-        <Route
-          path={PageNames.CreteCourse}
-          element={
-            <>
-              <CoursePage />
-            </>
-          }
-        />
-        <Route path={`${PageNames.CreteCourse}:id`} element={<></>} />
-        <Route
-          path={PageNames.CreteExercise}
-          element={
-            <>
-              <ExercisePage />
             </>
           }
         />
         <Route
-          path={PageNames.EditeCourse}
+          path={PageRoots.CreteCourse}
+          element={
+            <>
+              <CreateCoursePage />
+            </>
+          }
+        />
+        <Route
+          path={`${PageRoots.CourseAdminCatalog}/${PageRoots.Course}/:id`}
           element={
             <>
               <EditCoursePage />
@@ -70,10 +50,26 @@ function App() {
           }
         />
         <Route
-          path={PageNames.CourseAdminCatalog}
+          path={`${PageRoots.CourseAdminCatalog}/${PageRoots.Course}/:id/${PageRoots.CreteExercise}`}
+          element={
+            <>
+              <ExercisePage />
+            </>
+          }
+        />
+        <Route
+          path={PageRoots.CourseAdminCatalog}
           element={
             <>
               <CourseAdminCatalogPage />
+            </>
+          }
+        />
+        <Route
+          path={`${PageRoots.Course}/:id`}
+          element={
+            <>
+              <UserCoursePage />
             </>
           }
         />

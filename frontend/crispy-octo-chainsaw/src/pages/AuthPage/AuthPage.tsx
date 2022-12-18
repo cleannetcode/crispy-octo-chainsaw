@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthTabs } from './AuthTabs/AuthTabs';
 import PageWrapper from '../../components/PageWrapper';
-import { PageNames } from '../../PageName';
+import { PageRoots } from '../../PageRoots';
 import { useAuthService } from '../../Services/AuthService/useAuthService';
 
 export interface Token {

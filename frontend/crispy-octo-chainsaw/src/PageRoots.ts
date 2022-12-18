@@ -1,5 +1,5 @@
-export enum PageNames {
-  Mane = '/',
+export enum PageRoots {
+  Main = '/',
   CourseAdminCatalog = 'courseadmincatalog',
   Login = 'login',
   CourseAdminRegistraation = 'courseadminregistration',

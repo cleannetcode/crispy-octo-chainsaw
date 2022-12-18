@@ -1,13 +1,12 @@
-import { useState } from 'react';
 import { StorageAuthData } from '../../StorageAuthData';
 import { useAuthService } from '../AuthService/useAuthService';
 
 interface CourseService {
   createCourse: (data: FormData) => void;
-  editCourse: () => void;
-  deleteCourse: () => void;
+  editCourse: (id: number) => Promise<void>;
+  deleteCourse: (id: number) => Promise<void>;
   getCourses: () => Promise<Course[]>;
-  getCourseById: (id: number) => Course;
+  getCourseById: (id: number) => Promise<Course>;
 }
 
 export interface Course {
@@ -16,12 +15,18 @@ export interface Course {
   description: string;
   repositoryName: string;
   bannerName: string;
+  exercises: Exercise[];
 }
 
-interface CreateCourseData {}
+interface Exercise {
+  id: number;
+  title: string;
+  description: string;
+}
+
 const token: string = sessionStorage.getItem(StorageAuthData.AccessToken) ?? '';
 const host = 'https://localhost:64936';
-const endpointroot = 'api/cms/courses';
+const endpointroot = '/api/cms/courses';
 
 export const useCourseService = (): CourseService => {
   const services = useAuthService();
@@ -40,12 +45,35 @@ export const useCourseService = (): CourseService => {
         accessToken: token,
         refreshToken: refreshToken,
       });
+      await createCourse(data);
     }
   };
 
-  const editCourse = () => {};
+  const editCourse = async (id: number) => {
+    const response = await fetch(
+      `https://localhost:64936/api/cms/courses/${id}`,
+      {
+        method: 'put',
+        headers: new Headers({
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        }),
+      }
+    );
+  };
 
-  const deleteCourse = () => {};
+  const deleteCourse = async (id: number) => {
+    const response = await fetch(
+      `https://localhost:64936/api/cms/courses/${id}`,
+      {
+        method: 'delete',
+        headers: new Headers({
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        }),
+      }
+    );
+  };
 
   const getCourses = async () => {
     const data = await fetch(`https://localhost:64936/api/cms/courses`, {
@@ -61,14 +89,18 @@ export const useCourseService = (): CourseService => {
     return courses;
   };
 
-  const getCourseById = (id: number): Course => {
-    const course: Course = {
-      id: 0,
-      description: '',
-      repositoryName: '',
-      title: '',
-      bannerName: '',
-    };
+  const getCourseById = async (id: number) => {
+    const response = await fetch(
+      `https://localhost:64936/api/cms/courses/${id}`,
+      {
+        method: 'get',
+        headers: new Headers({
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        }),
+      }
+    );
+    const course: Course = await response.json();
     return course;
   };
 
