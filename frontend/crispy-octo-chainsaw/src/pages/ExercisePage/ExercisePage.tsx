@@ -6,6 +6,7 @@ export interface CreateExerciseData {
   title: string;
   description: string;
   branchName: string;
+  courseId: number;
 }
 
 const token = '';
