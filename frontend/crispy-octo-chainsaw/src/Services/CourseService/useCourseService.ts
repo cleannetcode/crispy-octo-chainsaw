@@ -3,7 +3,7 @@ import { useAuthService } from '../AuthService/useAuthService';
 
 interface CourseService {
   createCourse: (data: FormData) => void;
-  editCourse: (id: number) => Promise<void>;
+  editCourse: (id: number, data: FormData) => Promise<void>;
   deleteCourse: (id: number) => Promise<void>;
   getCourses: () => Promise<Course[]>;
   getCourseById: (id: number) => Promise<Course>;
