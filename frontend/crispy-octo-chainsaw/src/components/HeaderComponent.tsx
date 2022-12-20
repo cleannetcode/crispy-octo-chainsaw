@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Layout } from 'antd';
-import LoginButton from './LoginButton';
-import LogoutButton from './LogoutButton';
 import { Token } from '../pages/AuthPage/AuthPage';
 import Nickname from './Nickname';
 import { StorageAuthData } from '../StorageAuthData';
+import { LoginButton } from './LoginButton';
+import { LogoutButton } from './LogoutButton';
 const { Header } = Layout;
 
 function HeaderComponent() {

@@ -4,13 +4,15 @@ import './CourseFormStyles.css';
 import { CourseFormProps } from './CourseFormProps';
 import { useCourseForm } from './useCourseForm';
 import { QuestionCircleOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 const { TextArea } = Input;
 
 export function CourseForm(props: CourseFormProps) {
-  const [image, setImage] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string>('');
+  const [image, setImage] = useState<File | null>();
+  const [preview, setPreview] = useState<string | undefined>(
+    props.imagePreviewPath
+  );
   const navigate = useNavigate();
   const fileInputRef =
     useRef<HTMLInputElement>() as React.MutableRefObject<HTMLInputElement>;
@@ -22,6 +24,8 @@ export function CourseForm(props: CourseFormProps) {
     handleDescription,
     handleRepositoryName,
   } = useCourseForm();
+
+  console.log(title);
 
   useEffect(() => {
     if (image) {
@@ -50,7 +54,7 @@ export function CourseForm(props: CourseFormProps) {
     formData.append('description', description);
     formData.append('repositoryName', repositoryName);
     formData.append('image', image as File);
-    props.createCourse(formData);
+    props.createCourse?.(formData);
     navigate(-1);
   };
 
@@ -58,12 +62,16 @@ export function CourseForm(props: CourseFormProps) {
     <div className='create-course-form'>
       <h3>Banner</h3>
       {preview ? (
-        <img
-          className='banner-img'
-          src={preview}
-          style={{ objectFit: 'scale-down' }}
-          onClick={() => setPreview('')}
-        />
+        <div className='banner-img'>
+          <img
+            src={preview}
+            style={{ objectFit: 'scale-down', height: '100%', width: '100%' }}
+            onClick={(event) => {
+              event.preventDefault();
+              fileInputRef.current?.click();
+            }}
+          />
+        </div>
       ) : (
         <button
           className='button-image'
@@ -96,6 +104,7 @@ export function CourseForm(props: CourseFormProps) {
           <Input
             type='title'
             value={title}
+            defaultValue={undefined}
             onChange={(e) => handleTitle(e.target.value)}
             maxLength={500}
           />

@@ -5,12 +5,13 @@ import 'antd/dist/antd.min.css';
 import { AuthPage } from './pages/AuthPage/AuthPage';
 import { CreateCoursePage } from './pages/CreateCoursePage/CreateCoursePage';
 import { ExercisePage } from './pages/ExercisePage/ExercisePage';
-import { EditCoursePage } from './pages/EditCoursePage/EditCoursePage';
+import { AdminCoursePage } from './pages/AdminCoursePage/AdminCoursePage';
 import { PageRoots } from './PageRoots';
 import { CourseAdminCatalogPage } from './pages/CourseAdminCatalog/CourseAdminCatalogPage';
 import { AdminRegistraionPage } from './pages/AdminRegistrationPage/AdminRegistraionPage';
 import { MainPage } from './pages/MainPage/MainPage';
 import { UserCoursePage } from './pages/UserCoursePage/UserCoursePage';
+import { EditCoursePage } from './pages/EditCoursePage/EditCoursePage';
 
 function App() {
   return (
@@ -45,7 +46,7 @@ function App() {
           path={`${PageRoots.CourseAdminCatalog}/${PageRoots.Course}/:id`}
           element={
             <>
-              <EditCoursePage />
+              <AdminCoursePage />
             </>
           }
         />
@@ -70,6 +71,14 @@ function App() {
           element={
             <>
               <UserCoursePage />
+            </>
+          }
+        />
+        <Route
+          path={`${PageRoots.CourseAdminCatalog}/:id/${PageRoots.EditeCourse}`}
+          element={
+            <>
+              <EditCoursePage />
             </>
           }
         />

@@ -1,11 +1,6 @@
 import React from 'react';
-import {
-  EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined,
-  CloseCircleOutlined,
-} from '@ant-design/icons';
-import { Avatar, Card, Checkbox } from 'antd';
+import { EditOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { Card } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import { Link } from 'react-router-dom';
 import { PageRoots } from '../PageRoots';
@@ -64,7 +59,9 @@ export function CourseCard(props: GroupCardProps) {
         </div>
       }
       actions={[
-        <EditOutlined key='edit' />,
+        <Link to={`${props.id}/${PageRoots.EditeCourse}`} state={course}>
+          <EditOutlined key='edit' />,
+        </Link>,
         <CloseCircleOutlined
           key='delete'
           onClick={async () => await handleDeleteCourse()}
@@ -73,7 +70,6 @@ export function CourseCard(props: GroupCardProps) {
       bodyStyle={{ height: '120px' }}
     >
       <Meta
-        // avatar={<Avatar src='https://joeschmoe.io/api/v1/random' />}
         title={<div style={{ whiteSpace: 'break-spaces' }}>{props.title}</div>}
         description={<div style={{}}>Description</div>}
       />
