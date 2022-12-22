@@ -193,6 +193,7 @@ namespace CrispyOctoChainsaw.API.Controllers
 
             return Ok(new TokenResponse
             {
+                Role = role,
                 AccessToken = accsessToken,
                 RefreshToken = refreshToken,
                 Nickname = user.UserName
@@ -255,6 +256,7 @@ namespace CrispyOctoChainsaw.API.Controllers
 
             return Ok(new TokenResponse
             {
+                Role = userInformation.Value.Role,
                 AccessToken = accsessToken,
                 RefreshToken = refreshToken,
                 Nickname = userInformation.Value.Nickname
