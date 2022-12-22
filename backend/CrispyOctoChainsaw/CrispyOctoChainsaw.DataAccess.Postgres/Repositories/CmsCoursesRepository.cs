@@ -64,7 +64,7 @@ namespace CrispyOctoChainsaw.DataAccess.Postgres
             var adminCourses = await _context.Courses
                 .TagWith("Get admin courses")
                 .AsNoTracking()
-                .Where(x => x.CourseAdminId == courseAdminId)
+                .Where(x => x.CourseAdminId == courseAdminId && x.DeleteTime == null)
                 .ToArrayAsync();
 
             return _mapper.Map<CourseEntity[], Course[]>(adminCourses);
@@ -72,15 +72,16 @@ namespace CrispyOctoChainsaw.DataAccess.Postgres
 
         public async Task<Result<int>> Delete(int courseId)
         {
-            var course = await FindCourseById(courseId);
-            if (course.IsFailure)
+            var course = await _context.Courses.FirstOrDefaultAsync(x => x.Id == courseId);
+            if (course is null)
             {
                 return Result.Failure<int>("Course not found.");
             }
 
-            _context.Courses.Remove(new CourseEntity { Id = course.Value.Id });
+            course.DeleteTime = DateTimeOffset.UtcNow;
+            await _context.SaveChangesAsync();
 
-            return course.Value.Id;
+            return course.Id;
         }
 
         public async Task<Result<Exercise[]>> GetExercisesByCourseId(int courseId)

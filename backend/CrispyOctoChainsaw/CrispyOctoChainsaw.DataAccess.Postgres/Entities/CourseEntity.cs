@@ -21,6 +21,8 @@ namespace CrispyOctoChainsaw.DataAccess.Postgres.Entities
         [StringLength(Course.MaxBannerNameLength)]
         public string BannerName { get; set; }
 
+        public DateTimeOffset? DeleteTime { get; set; }
+
         public Guid CourseAdminId { get; set; }
 
         public ICollection<ExerciseEntity> Exercises { get; set; } = new List<ExerciseEntity>();
@@ -46,6 +48,9 @@ namespace CrispyOctoChainsaw.DataAccess.Postgres.Entities
 
             builder.Property(x => x.BannerName)
                 .IsRequired(true);
+
+            builder.Property(x => x.DeleteTime)
+                .IsRequired(false);
         }
     }
 }

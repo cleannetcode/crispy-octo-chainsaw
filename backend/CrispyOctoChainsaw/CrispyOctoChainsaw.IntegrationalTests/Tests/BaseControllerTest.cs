@@ -149,6 +149,7 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
                 .Without(x => x.Id)
                 .With(x => x.CourseAdminId, courseAdminId)
                 .Without(x => x.Exercises)
+                .Without(x => x.DeleteTime)
                 .Create();
 
             await DbContext.Courses.AddAsync(course);

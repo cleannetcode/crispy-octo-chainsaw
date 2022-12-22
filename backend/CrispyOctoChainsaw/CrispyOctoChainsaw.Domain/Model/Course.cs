@@ -16,7 +16,8 @@ namespace CrispyOctoChainsaw.Domain.Model
             string repositoryName,
             string bannerName,
             Guid courseAdminId,
-            Exercise[] exercises)
+            Exercise[] exercises,
+            DateTimeOffset? deleteTime)
         {
             Id = id;
             Title = title;
@@ -25,6 +26,7 @@ namespace CrispyOctoChainsaw.Domain.Model
             BannerName = bannerName;
             CourseAdminId = courseAdminId;
             Exercises = exercises;
+            DeleteTime = deleteTime;
         }
 
         public int Id { get; init; }
@@ -36,6 +38,8 @@ namespace CrispyOctoChainsaw.Domain.Model
         public string RepositoryName { get; }
 
         public string BannerName { get; }
+
+        public DateTimeOffset? DeleteTime { get; init; }
 
         public Guid CourseAdminId { get; }
 
@@ -126,7 +130,8 @@ namespace CrispyOctoChainsaw.Domain.Model
                 repositoryName,
                 bannerName,
                 courseAdminId,
-                Array.Empty<Exercise>());
+                Array.Empty<Exercise>(),
+                null);
         }
     }
 }
