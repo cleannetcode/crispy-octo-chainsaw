@@ -6,6 +6,7 @@ export interface AuthData {
   accessToken: string;
   refreshToken: string;
   nickname: string;
+  role: string;
 }
 
 export interface RefreshTokenData {
@@ -35,9 +36,10 @@ export const useAuthService = (): AuthService => {
   let navigate = useNavigate();
 
   const setAuthDataToStorage = (data: AuthData) => {
-    sessionStorage.setItem(StorageAuthData.AccessToken, data.accessToken);
-    sessionStorage.setItem(StorageAuthData.RefreshToken, data.refreshToken);
-    sessionStorage.setItem(StorageAuthData.Nickname, data.nickname);
+    localStorage.setItem(StorageAuthData.AccessToken, data.accessToken);
+    localStorage.setItem(StorageAuthData.RefreshToken, data.refreshToken);
+    localStorage.setItem(StorageAuthData.Nickname, data.nickname);
+    localStorage.setItem(StorageAuthData.Role, data.role);
   };
 
   const registrUser = async (registraionData: RegistrationData) => {
@@ -92,7 +94,10 @@ export const useAuthService = (): AuthService => {
     if (response.ok) {
       const tokens: AuthData = await response.json();
       setAuthDataToStorage(tokens);
-      navigate(PageRoots.Main);
+
+      tokens.role === 'User'
+        ? navigate(PageRoots.Main)
+        : navigate(`/${PageRoots.CourseAdminCatalog}`);
     }
   };
 

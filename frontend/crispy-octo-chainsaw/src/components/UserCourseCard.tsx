@@ -11,8 +11,8 @@ interface GroupCardProps {
   bannerName: string;
 }
 
-// const imagePath: string = 'https://localhost:64936/Images';
-const imagePath: string = 'Images';
+const imagePath: string = 'https://localhost:64936/Images';
+// const imagePath: string = 'Images';
 
 export function UserCourseCard(props: GroupCardProps) {
   return (
@@ -37,7 +37,6 @@ export function UserCourseCard(props: GroupCardProps) {
       bodyStyle={{ height: '120px' }}
     >
       <Meta
-        // avatar={<Avatar src='https://joeschmoe.io/api/v1/random' />}
         title={<div style={{ whiteSpace: 'break-spaces' }}>{props.title}</div>}
         description={<div style={{}}>Description</div>}
       />

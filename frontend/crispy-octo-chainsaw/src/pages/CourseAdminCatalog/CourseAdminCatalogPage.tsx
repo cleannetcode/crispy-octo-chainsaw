@@ -20,33 +20,28 @@ export function CourseAdminCatalogPage() {
 
   const handleSetisClick = () => {
     setIsClick(!isClick);
-    console.log(isClick);
   };
 
   useEffect(() => {
     const handleCourseService = async () => {
-      const courses = await courseSevices.getCourses();
-      console.log(courses);
-
+      const courses = await courseSevices.getCourseAdminCourses();
       setCourses(courses);
     };
     handleCourseService().catch(console.error);
   }, [isClick]);
 
   const getCourses = () => {
-    const coursesList = fixtureCourses?.map((course: Course) => {
+    const coursesList = courses?.map((course: Course) => {
       return (
-        <>
-          <CourseCard
-            key={course.id}
-            id={course.id}
-            title={course.title}
-            description={course.description}
-            repositoryName={course.repositoryName}
-            bannerName={course.bannerName}
-            handleIsClick={handleSetisClick}
-          />
-        </>
+        <CourseCard
+          key={course.id}
+          id={course.id}
+          title={course.title}
+          description={course.description}
+          repositoryName={course.repositoryName}
+          bannerName={course.bannerName}
+          handleIsClick={handleSetisClick}
+        />
       );
     });
     return coursesList;
@@ -56,7 +51,7 @@ export function CourseAdminCatalogPage() {
     <div>
       <PageWrapper>
         <Content>
-          <div className='course-page-content'>
+          <div className='course-page-content mb-20'>
             <div className='mb-20'>
               <CreateCourseButton />
             </div>

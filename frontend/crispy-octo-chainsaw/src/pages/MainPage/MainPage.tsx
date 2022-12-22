@@ -16,16 +16,16 @@ export function MainPage() {
 
   useEffect(() => {
     const serviceHandler = async () => {
-      const courses: Course[] = await services.getCourses();
+      const courses: Course[] = await services.getAllCourses();
       setCourses(courses);
     };
     serviceHandler().catch(console.error);
   }, []);
 
   const showCourses = () => {
-    const data = fixtureCourses?.map((course: Course) => {
+    const data = courses?.map((course: Course) => {
       return (
-        <Link to={`${PageRoots.Course}/${course.id}`} state={course}>
+        <Link to={`${PageRoots.Course}/${course.id}`}>
           <UserCourseCard
             key={course.id}
             id={course.id}

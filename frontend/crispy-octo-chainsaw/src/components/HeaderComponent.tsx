@@ -8,10 +8,10 @@ import { LogoutButton } from './LogoutButton';
 const { Header } = Layout;
 
 function HeaderComponent() {
-  const token: string | null = sessionStorage.getItem(
+  const token: string | null = localStorage.getItem(
     StorageAuthData.AccessToken
   );
-  let nickname: string = sessionStorage.getItem(StorageAuthData.Nickname) ?? '';
+  let nickname: string = localStorage.getItem(StorageAuthData.Nickname) ?? '';
 
   const renderLogin = () => {
     return (

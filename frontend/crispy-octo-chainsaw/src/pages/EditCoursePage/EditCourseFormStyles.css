@@ -2,13 +2,13 @@
   width: 400px;
 }
 
-.create-course-page {
+/* .edit-course-page {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 70vh;
   background: #fff;
-}
+} */
 
 .flex-contrainer-repository-name {
   display: flex;

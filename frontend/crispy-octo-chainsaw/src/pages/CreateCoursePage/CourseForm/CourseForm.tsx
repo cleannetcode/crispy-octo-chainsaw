@@ -5,6 +5,7 @@ import { CourseFormProps } from './CourseFormProps';
 import { useCourseForm } from './useCourseForm';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { PageRoots } from '../../../PageRoots';
 
 const { TextArea } = Input;
 
@@ -54,8 +55,9 @@ export function CourseForm(props: CourseFormProps) {
     formData.append('description', description);
     formData.append('repositoryName', repositoryName);
     formData.append('image', image as File);
-    props.createCourse?.(formData);
-    navigate(-1);
+    props
+      .createCourse?.(formData)
+      .then(() => navigate(`/${PageRoots.CourseAdminCatalog}`));
   };
 
   return (
@@ -119,6 +121,7 @@ export function CourseForm(props: CourseFormProps) {
           <TextArea
             value={description}
             showCount
+            autoSize
             maxLength={1500}
             onChange={(e) => handleDescription(e.target.value)}
           />

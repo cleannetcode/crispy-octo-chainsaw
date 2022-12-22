@@ -1,5 +1,6 @@
 import React from 'react';
 import PageWrapper from '../../components/PageWrapper';
+import { StorageAuthData } from '../../StorageAuthData';
 import { ExerciseForm } from './ExerciseForm/ExerciseForm';
 
 export interface CreateExerciseData {
@@ -9,17 +10,17 @@ export interface CreateExerciseData {
   courseId: number;
 }
 
-const token = '';
+const token = localStorage.getItem(StorageAuthData.AccessToken);
 
 export function ExercisePage() {
   const createExercise = async (data: CreateExerciseData) => {
-    const response = await fetch('https://localhost:64935/api/cms/exercise', {
+    const response = await fetch('https://localhost:64936/api/cms/exercises', {
       method: 'post',
       headers: new Headers({
         'Content-type': 'application/json',
         Authorization: `Bearer ${token}`,
-        body: JSON.stringify(data),
       }),
+      body: JSON.stringify(data),
     });
     if (!response.ok) {
     }

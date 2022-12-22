@@ -33,8 +33,6 @@ export function EditCourseForm(props: EditCourseFormProps) {
     handleRepositoryName,
   } = useCourseForm();
 
-  console.log(title);
-
   useEffect(() => {
     if (image) {
       handlePreview(image as File);
@@ -62,8 +60,7 @@ export function EditCourseForm(props: EditCourseFormProps) {
     formData.append('description', description);
     formData.append('repositoryName', repositoryName);
     formData.append('image', image as File);
-    props.editCourse(props.course.id, formData);
-    navigate(-1);
+    props.editCourse(props.course.id, formData).then(() => navigate(-1));
   };
 
   return (

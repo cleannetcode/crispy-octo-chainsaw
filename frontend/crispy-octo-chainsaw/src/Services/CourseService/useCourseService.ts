@@ -1,12 +1,14 @@
+import { json } from 'stream/consumers';
 import { StorageAuthData } from '../../StorageAuthData';
 import { useAuthService } from '../AuthService/useAuthService';
 
 interface CourseService {
-  createCourse: (data: FormData) => void;
+  createCourse: (data: FormData) => Promise<void>;
   editCourse: (id: number, data: FormData) => Promise<void>;
   deleteCourse: (id: number) => Promise<void>;
-  getCourses: () => Promise<Course[]>;
+  getCourseAdminCourses: () => Promise<Course[]>;
   getCourseById: (id: number) => Promise<Course>;
+  getAllCourses: () => Promise<Course[]>;
 }
 
 export interface Course {
@@ -24,12 +26,23 @@ interface Exercise {
   description: string;
 }
 
-const token: string = sessionStorage.getItem(StorageAuthData.AccessToken) ?? '';
+const token: string = localStorage.getItem(StorageAuthData.AccessToken) ?? '';
 const host = 'https://localhost:64936';
-const endpointroot = '/api/cms/courses';
+const endpointrootcms = '/api/cms/courses';
+const endpointroot = '/api/courses';
 
 export const useCourseService = (): CourseService => {
   const services = useAuthService();
+
+  const getAllCourses = async (): Promise<Course[]> => {
+    const response = await fetch(host + endpointroot, {
+      method: 'get',
+      headers: new Headers({ 'Content-type': 'application/json' }),
+    });
+    const courses: Course[] = await response.json();
+    return courses;
+  };
+
   const createCourse = async (data: FormData) => {
     const response = await fetch('https://localhost:64936/api/cms/courses', {
       method: 'post',
@@ -49,15 +62,15 @@ export const useCourseService = (): CourseService => {
     }
   };
 
-  const editCourse = async (id: number) => {
+  const editCourse = async (id: number, data: FormData) => {
     const response = await fetch(
       `https://localhost:64936/api/cms/courses/${id}`,
       {
         method: 'put',
         headers: new Headers({
-          'Content-type': 'application/json',
           Authorization: `Bearer ${token}`,
         }),
+        body: data,
       }
     );
   };
@@ -75,7 +88,7 @@ export const useCourseService = (): CourseService => {
     );
   };
 
-  const getCourses = async () => {
+  const getCourseAdminCourses = async () => {
     const data = await fetch(`https://localhost:64936/api/cms/courses`, {
       method: 'get',
       headers: new Headers({
@@ -84,7 +97,6 @@ export const useCourseService = (): CourseService => {
       }),
     });
     const courses: Course[] = await data.json();
-    console.log(courses);
 
     return courses;
   };
@@ -108,8 +120,9 @@ export const useCourseService = (): CourseService => {
     createCourse,
     editCourse,
     deleteCourse,
-    getCourses,
+    getCourseAdminCourses: getCourseAdminCourses,
     getCourseById,
+    getAllCourses,
   };
 
   return courseServices;

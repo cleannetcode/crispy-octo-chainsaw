@@ -18,8 +18,7 @@ export function AdminCoursePage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { state } = useLocation();
-  const fixtureCourse: Course = state;
-  console.log(fixtureCourse.exercises);
+  // const fixtureCourse: Course = state;
   const { Panel } = Collapse;
 
   useEffect(() => {
@@ -33,15 +32,13 @@ export function AdminCoursePage() {
   const goBack = () => navigate(`/${PageRoots.CourseAdminCatalog}`);
 
   const getExercises = () => {
-    const exercises = fixtureCourses[0].exercises.map((exercise) => {
+    const exercises = course?.exercises.map((exercise) => {
       return (
-        <>
-          <Collapse>
-            <Panel header={exercise.title} key={exercise.id}>
-              <p>{exercise.description}</p>
-            </Panel>
-          </Collapse>
-        </>
+        <Collapse key={exercise.id}>
+          <Panel header={exercise.title} key={exercise.id}>
+            <p>{exercise.description}</p>
+          </Panel>
+        </Collapse>
       );
     });
     return exercises;
@@ -53,12 +50,12 @@ export function AdminCoursePage() {
         <PageHeader
           className='site-page-header'
           onBack={() => goBack()}
-          title={fixtureCourse.title}
+          title={course?.title}
         />
         <div className='course-description'>
           <Typography>
             <Paragraph style={{ fontSize: 20, textAlign: 'justify' }}>
-              {fixtureCourse?.description}
+              {course?.description}
             </Paragraph>
           </Typography>
           <div className='pb-25'>{getExercises()}</div>

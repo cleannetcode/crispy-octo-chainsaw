@@ -10,9 +10,9 @@ export function LogoutButton() {
   const [size, setSize] = useState<SizeType>('middle');
 
   const logout = () => {
-    sessionStorage.removeItem(StorageAuthData.AccessToken);
-    sessionStorage.removeItem(StorageAuthData.RefreshToken);
-    sessionStorage.removeItem(StorageAuthData.Nickname);
+    localStorage.removeItem(StorageAuthData.AccessToken);
+    localStorage.removeItem(StorageAuthData.RefreshToken);
+    localStorage.removeItem(StorageAuthData.Nickname);
   };
 
   return (

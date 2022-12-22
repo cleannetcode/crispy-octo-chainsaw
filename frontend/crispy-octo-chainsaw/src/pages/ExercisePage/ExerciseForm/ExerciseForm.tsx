@@ -1,6 +1,6 @@
 import { Button, Form, Input, Tooltip } from 'antd';
 import React from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { PageRoots } from '../../../PageRoots';
 import { ExerciseProps } from './ExerciseFormProps';
 import './ExerciseFormStyles.css';
@@ -19,16 +19,21 @@ export function ExerciseForm(props: ExerciseProps) {
   } = useExerciseForm();
 
   const navigate = useNavigate();
-  const id: number = useLocation().state;
+  // const id: number = useLocation().state;
+  const { id } = useParams();
+  console.log(id);
 
   const onFinish = () => {
-    props.createExercise({
-      title: title,
-      description: description,
-      branchName: branchName,
-      courseId: id,
-    });
-    navigate(`/${PageRoots.CourseAdminCatalog}/${PageRoots.Course}/${id}`);
+    props
+      .createExercise({
+        title: title,
+        description: description,
+        branchName: branchName,
+        courseId: Number(id),
+      })
+      .then(() =>
+        navigate(`/${PageRoots.CourseAdminCatalog}/${PageRoots.Course}/${id}`)
+      );
   };
 
   return (
@@ -57,6 +62,7 @@ export function ExerciseForm(props: ExerciseProps) {
         >
           <TextArea
             showCount
+            autoSize
             maxLength={1500}
             onChange={(e) => handleDescription(e.target.value)}
           />

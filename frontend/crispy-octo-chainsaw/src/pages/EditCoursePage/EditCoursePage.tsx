@@ -7,28 +7,28 @@ import {
 import { EditCourseForm } from './EditCourseForm';
 
 export function EditCoursePage() {
-  // const [course, setCourse] = useState<Course>({
-  //   id: 0,
-  //   title: '',
-  //   description: '',
-  //   exercises: [],
-  //   bannerName: '',
-  //   repositoryName: '',
-  // });
+  const [course, setCourse] = useState<Course>({
+    id: 0,
+    title: '',
+    description: '',
+    exercises: [],
+    bannerName: '',
+    repositoryName: '',
+  });
 
   const services = useCourseService();
   const { id } = useParams();
 
-  // useEffect(() => {
-  //   const handleService = async () => {
-  //     const course: Course = await services.getCourseById(Number(id));
-  //     setCourse(course);
-  //   };
-  //   handleService().catch(console.error);
-  // }, []);
+  useEffect(() => {
+    const handleService = async () => {
+      const course: Course = await services.getCourseById(Number(id));
+      setCourse(course);
+    };
+    handleService().catch(console.error);
+  }, []);
 
-  const { state } = useLocation();
-  const course: Course = state;
+  // const { state } = useLocation();
+  // const course: Course = state;
   return (
     <div
       style={{
@@ -42,7 +42,8 @@ export function EditCoursePage() {
         key={course.id}
         course={course}
         editCourse={services.editCourse}
-        imagePreviewPath='/Images/SQL-Training-300x246.png'
+        // imagePreviewPath='/Images/SQL-Training-300x246.png'
+        imagePreviewPath={`https://localhost:64936/Images/${course.bannerName}`}
       />
     </div>
   );

@@ -18,8 +18,8 @@ interface GroupCardProps {
   handleIsClick: () => void;
 }
 
-// const imagePath: string = 'https://localhost:64936/Images';
-const imagePath: string = 'Images';
+const imagePath: string = 'https://localhost:64936/Images';
+// const imagePath: string = 'Images';
 
 export function CourseCard(props: GroupCardProps) {
   const course: Course = {
@@ -49,7 +49,7 @@ export function CourseCard(props: GroupCardProps) {
       hoverable={true}
       cover={
         <div style={{ overflow: 'hidden', height: '200px' }}>
-          <Link to={`${PageRoots.Course}/${props.id}`} state={course}>
+          <Link to={`${PageRoots.Course}/${props.id}`}>
             <img
               alt='example'
               style={{ objectFit: 'cover', height: '100%', width: '100%' }}
