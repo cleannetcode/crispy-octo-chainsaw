@@ -1,5 +1,5 @@
-import { json } from 'stream/consumers';
-import { StorageAuthData } from '../../StorageAuthData';
+import { useEffect, useState } from 'react';
+import { useStorage } from '../../hooks/useStorage';
 import { useAuthService } from '../AuthService/useAuthService';
 
 interface CourseService {
@@ -26,13 +26,15 @@ interface Exercise {
   description: string;
 }
 
-const token: string = localStorage.getItem(StorageAuthData.AccessToken) ?? '';
 const host = 'https://localhost:64936';
 const endpointrootcms = '/api/cms/courses';
 const endpointroot = '/api/courses';
 
 export const useCourseService = (): CourseService => {
+  const [courses, setCourses] = useState<Course[]>([]);
   const services = useAuthService();
+  const storage = useStorage();
+  const [token, setToken] = useState<Promise<string>>(services.getToken());
 
   const getAllCourses = async (): Promise<Course[]> => {
     const response = await fetch(host + endpointroot, {
@@ -47,19 +49,10 @@ export const useCourseService = (): CourseService => {
     const response = await fetch('https://localhost:64936/api/cms/courses', {
       method: 'post',
       headers: new Headers({
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${await token}`,
       }),
       body: data,
     });
-    if (!response.ok) {
-      const refreshToken: string =
-        sessionStorage.getItem(StorageAuthData.RefreshToken) ?? '';
-      services.refreshAccessToken({
-        accessToken: token,
-        refreshToken: refreshToken,
-      });
-      await createCourse(data);
-    }
   };
 
   const editCourse = async (id: number, data: FormData) => {
@@ -68,7 +61,7 @@ export const useCourseService = (): CourseService => {
       {
         method: 'put',
         headers: new Headers({
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${await token}`,
         }),
         body: data,
       }
@@ -82,7 +75,7 @@ export const useCourseService = (): CourseService => {
         method: 'delete',
         headers: new Headers({
           'Content-type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${await token}`,
         }),
       }
     );
@@ -93,10 +86,11 @@ export const useCourseService = (): CourseService => {
       method: 'get',
       headers: new Headers({
         'Content-type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${await token}`,
       }),
     });
     const courses: Course[] = await data.json();
+    setCourses(courses);
 
     return courses;
   };
@@ -108,7 +102,7 @@ export const useCourseService = (): CourseService => {
         method: 'get',
         headers: new Headers({
           'Content-type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${await token}`,
         }),
       }
     );
@@ -120,7 +114,7 @@ export const useCourseService = (): CourseService => {
     createCourse,
     editCourse,
     deleteCourse,
-    getCourseAdminCourses: getCourseAdminCourses,
+    getCourseAdminCourses,
     getCourseById,
     getAllCourses,
   };

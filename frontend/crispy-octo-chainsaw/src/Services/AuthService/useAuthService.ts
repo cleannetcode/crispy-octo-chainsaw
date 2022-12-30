@@ -1,6 +1,8 @@
 import { PageRoots } from '../../PageRoots';
 import { useNavigate } from 'react-router-dom';
 import { StorageAuthData } from '../../StorageAuthData';
+import { useStorage } from '../../hooks/useStorage';
+import { useState } from 'react';
 
 export interface AuthData {
   accessToken: string;
@@ -29,17 +31,74 @@ interface AuthService {
   registrAdmin: (registraionData: RegistrationData) => void;
   login: (loginData: LoginData) => void;
   registrUser: (registraionData: RegistrationData) => void;
-  refreshAccessToken: (refreshTokenData: RefreshTokenData) => void;
+  refreshAccessToken: (refreshTokenData: RefreshTokenData) => Promise<void>;
+  isExpiredAccessToken: () => boolean;
+  isExpiredRefreshTokenToken: () => boolean;
+  getToken: () => Promise<string>;
+  token: string;
 }
 
 export const useAuthService = (): AuthService => {
   let navigate = useNavigate();
+  const storage = useStorage();
+  const [token, setToken] = useState<string>(
+    storage.getValueFromStorage(StorageAuthData.AccessToken)
+  );
+
+  const [refreshToken, setRefreshToken] = useState<string>(
+    storage.getValueFromStorage(StorageAuthData.RefreshToken)
+  );
 
   const setAuthDataToStorage = (data: AuthData) => {
-    localStorage.setItem(StorageAuthData.AccessToken, data.accessToken);
-    localStorage.setItem(StorageAuthData.RefreshToken, data.refreshToken);
-    localStorage.setItem(StorageAuthData.Nickname, data.nickname);
-    localStorage.setItem(StorageAuthData.Role, data.role);
+    storage.setValueInstorage(StorageAuthData.AccessToken, data.accessToken);
+    storage.setValueInstorage(StorageAuthData.RefreshToken, data.refreshToken);
+    storage.setValueInstorage(StorageAuthData.Nickname, data.nickname);
+    storage.setValueInstorage(StorageAuthData.Role, data.role);
+  };
+
+  const getToken = async (): Promise<string> => {
+    if (isExpiredAccessToken()) {
+      const refreshToken = storage.getValueFromStorage(
+        StorageAuthData.RefreshToken
+      );
+      await refreshAccessToken({
+        accessToken: token,
+        refreshToken: refreshToken,
+      });
+      console.log('getToken');
+
+      return storage.getValueFromStorage(StorageAuthData.AccessToken);
+    }
+
+    return storage.getValueFromStorage(StorageAuthData.AccessToken);
+  };
+
+  const isExpiredAccessToken = (): boolean => {
+    if (!token) {
+      return true;
+    }
+
+    const jwtPayload = token.split('.')[1];
+    const jwtPayloadDecoded = window.atob(jwtPayload);
+    const { exp } = JSON.parse(jwtPayloadDecoded);
+
+    const accessTokenLifeTime = exp - Math.floor(Date.now() / 1000);
+
+    return accessTokenLifeTime <= 0;
+  };
+
+  const isExpiredRefreshTokenToken = (): boolean => {
+    if (!refreshToken) {
+      return true;
+    }
+
+    const jwtPayload = refreshToken.split('.')[1];
+    const jwtPayloadDecoded = window.atob(jwtPayload);
+    const { exp } = JSON.parse(jwtPayloadDecoded);
+
+    const refreshTokenLifeTime = exp - Math.floor(Date.now() / 1000);
+
+    return refreshTokenLifeTime <= 0;
   };
 
   const registrUser = async (registraionData: RegistrationData) => {
@@ -101,7 +160,9 @@ export const useAuthService = (): AuthService => {
     }
   };
 
-  const refreshAccessToken = async (refreshTokenData: RefreshTokenData) => {
+  const refreshAccessToken = async (
+    refreshTokenData: RefreshTokenData
+  ): Promise<void> => {
     const response = await fetch(
       'https://localhost:64936/api/usersaccount/refreshaccesstoken',
       {
@@ -112,6 +173,8 @@ export const useAuthService = (): AuthService => {
     );
     if (response.ok) {
       const tokens: AuthData = await response.json();
+      setToken(tokens.accessToken);
+
       setAuthDataToStorage(tokens);
     }
   };
@@ -121,6 +184,11 @@ export const useAuthService = (): AuthService => {
     login,
     registrUser,
     refreshAccessToken,
+    isExpiredAccessToken,
+    isExpiredRefreshTokenToken,
+    getToken,
+    token,
   };
+
   return services;
 };
