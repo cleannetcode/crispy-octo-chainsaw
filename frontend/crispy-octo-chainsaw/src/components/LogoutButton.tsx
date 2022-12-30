@@ -5,14 +5,17 @@ import { ImportOutlined } from '@ant-design/icons';
 import { PageRoots } from '../PageRoots';
 import { StorageAuthData } from '../StorageAuthData';
 import { Link } from 'react-router-dom';
+import { useStorage } from '../hooks/useStorage';
 
 export function LogoutButton() {
   const [size, setSize] = useState<SizeType>('middle');
+  const storage = useStorage();
 
   const logout = () => {
-    localStorage.removeItem(StorageAuthData.AccessToken);
-    localStorage.removeItem(StorageAuthData.RefreshToken);
-    localStorage.removeItem(StorageAuthData.Nickname);
+    storage.clearStorage(StorageAuthData.AccessToken);
+    storage.clearStorage(StorageAuthData.RefreshToken);
+    storage.clearStorage(StorageAuthData.Nickname);
+    storage.clearStorage(StorageAuthData.Role);
   };
 
   return (

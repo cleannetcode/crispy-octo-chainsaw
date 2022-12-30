@@ -27,8 +27,6 @@ export function EditCoursePage() {
     handleService().catch(console.error);
   }, []);
 
-  // const { state } = useLocation();
-  // const course: Course = state;
   return (
     <div
       style={{
@@ -42,7 +40,6 @@ export function EditCoursePage() {
         key={course.id}
         course={course}
         editCourse={services.editCourse}
-        // imagePreviewPath='/Images/SQL-Training-300x246.png'
         imagePreviewPath={`https://localhost:64936/Images/${course.bannerName}`}
       />
     </div>

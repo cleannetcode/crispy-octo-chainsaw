@@ -5,13 +5,17 @@ import Nickname from './Nickname';
 import { StorageAuthData } from '../StorageAuthData';
 import { LoginButton } from './LoginButton';
 import { LogoutButton } from './LogoutButton';
+import { useStorage } from '../hooks/useStorage';
 const { Header } = Layout;
 
 function HeaderComponent() {
-  const token: string | null = localStorage.getItem(
+  const storage = useStorage();
+
+  const token: string | null = storage.getValueFromStorage(
     StorageAuthData.AccessToken
   );
-  let nickname: string = localStorage.getItem(StorageAuthData.Nickname) ?? '';
+  const nickname: string | null =
+    storage.getValueFromStorage(StorageAuthData.Nickname) ?? '';
 
   const renderLogin = () => {
     return (
@@ -31,7 +35,7 @@ function HeaderComponent() {
     );
   };
 
-  return token === null ? <>{renderLogin()}</> : <>{renderLogout(nickname)}</>;
+  return token === '' ? <>{renderLogin()}</> : <>{renderLogout(nickname)}</>;
 }
 
 export default HeaderComponent;
