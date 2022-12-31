@@ -61,7 +61,7 @@ namespace CrispyOctoChainsaw.DataAccess.Postgres.Repositories
 
             if (session is null)
             {
-                return Result.Failure<Session>($"Session with don't found.");
+                return Result.Failure<Session>($"Session don't found.");
             }
 
             return _mapper.Map<SessionEntity, Session>(session);

@@ -13,7 +13,7 @@ namespace CrispyOctoChainsaw.API
             var accsessToken = JwtBuilder.Create()
                       .WithAlgorithm(new HMACSHA256Algorithm())
                       .WithSecret(options.Secret)
-                      .ExpirationTime(DateTimeOffset.UtcNow.AddHours(1).ToUnixTimeSeconds())
+                      .ExpirationTime(DateTimeOffset.UtcNow.AddMinutes(10).ToUnixTimeSeconds())
                       .AddClaim(ClaimTypes.Name, information.Nickname)
                       .AddClaim(ClaimTypes.NameIdentifier, information.UserId)
                       .AddClaim(ClaimTypes.Role, information.Role)

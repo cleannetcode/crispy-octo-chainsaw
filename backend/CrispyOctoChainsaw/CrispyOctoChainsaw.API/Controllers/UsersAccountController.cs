@@ -237,17 +237,22 @@ namespace CrispyOctoChainsaw.API.Controllers
                 return BadRequest(resultGet.Error);
             }
 
-            var accsessToken = JwtHelper.CreateAccessToken(userInformation.Value, _options);
-            var refreshToken = JwtHelper.CreateRefreshToken(userInformation.Value, _options);
+            if (resultGet.Value.RefreshToken != request.RefreshToken)
+            {
+                _logger.LogError("error", "Refresh tokens not equals.");
+                return BadRequest("Refresh tokens not equals.");
+            }
 
-            var session = Session.Create(userInformation.Value.UserId, accsessToken, refreshToken);
+            var accsessToken = JwtHelper.CreateAccessToken(userInformation.Value, _options);
+
+            var session = Session.Create(userInformation.Value.UserId, accsessToken, resultGet.Value.RefreshToken);
             if (resultGet.IsFailure)
             {
                 _logger.LogError("{error}", resultGet.Error);
                 return BadRequest(resultGet.Error);
             }
 
-            var result = await _sessionsRepository.Create(resultGet.Value);
+            var result = await _sessionsRepository.Create(session.Value);
             if (result.IsFailure)
             {
                 _logger.LogError("{error}", result.Error);
@@ -258,7 +263,7 @@ namespace CrispyOctoChainsaw.API.Controllers
             {
                 Role = userInformation.Value.Role,
                 AccessToken = accsessToken,
-                RefreshToken = refreshToken,
+                RefreshToken = resultGet.Value.RefreshToken,
                 Nickname = userInformation.Value.Nickname
             });
         }
