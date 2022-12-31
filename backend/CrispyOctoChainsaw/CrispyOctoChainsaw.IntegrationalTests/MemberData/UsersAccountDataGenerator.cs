@@ -29,5 +29,20 @@ namespace CrispyOctoChainsaw.IntegrationalTests.MemberData
                 };
             }
         }
+
+        public static IEnumerable<object[]> GenerateSetUserNicknameUserId(int testCount)
+        {
+            var fixture = new Fixture();
+            for (int i = 0; i < testCount; i++)
+            {
+                var nickname = fixture.Create<string>();
+                var userId = Guid.NewGuid();
+
+                yield return new object[]
+                {
+                    nickname, userId
+                };
+            }
+        }
     }
 }

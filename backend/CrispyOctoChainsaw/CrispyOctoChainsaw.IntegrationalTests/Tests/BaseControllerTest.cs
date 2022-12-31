@@ -46,20 +46,14 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
                             .AddUserSecrets(typeof(BaseControllerTest).Assembly)
                             .Build();
 
-                        CourseAdminId = configuration
-                           .GetSection("Secrets:CourseAdminId")
-                           .Value;
-
-                        if (string.IsNullOrWhiteSpace(CourseAdminId))
+                        CourseAdminId = configuration.GetValue<Guid>("Secrets:CourseAdminId");
+                        if (CourseAdminId == null || CourseAdminId == Guid.Empty)
                         {
                             throw new ArgumentException($"{nameof(CourseAdminId)} - is required. Please setup testsettings");
                         }
 
-                        UserId = configuration
-                            .GetSection("Secrets:UserId")
-                            .Value;
-
-                        if (string.IsNullOrWhiteSpace(UserId))
+                        UserId = configuration.GetValue<Guid>("Secrets:UserId");
+                        if (UserId == null || UserId == Guid.Empty)
                         {
                             throw new ArgumentException($"{nameof(UserId)} - is required");
                         }
@@ -88,9 +82,9 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
 
         protected string CleaningPath { get; set; }
 
-        protected string CourseAdminId { get; set; }
+        protected Guid CourseAdminId { get; set; }
 
-        protected string UserId { get; set; }
+        protected Guid UserId { get; set; }
 
         protected string JwtTokenSecret { get; set; }
 
@@ -110,18 +104,9 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
 
         protected CrispyOctoChainsawDbContext DbContext { get; set; }
 
-        private async Task<Guid> GetGuidId(string id)
-        {
-            Guid.TryParse(id, out var parseId);
-
-            return parseId;
-        }
-
         protected async Task CourseAdminLogin()
         {
-            var courseAdminId = await GetGuidId(CourseAdminId);
-
-            var userInformation = new UserInformation(CourseAdminNickname, courseAdminId, CourseAdminRole);
+            var userInformation = new UserInformation(CourseAdminNickname, CourseAdminId, CourseAdminRole);
             var token = CreateAccessToken(userInformation);
 
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
@@ -131,9 +116,7 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
 
         protected async Task UserLogin()
         {
-            var userId = await GetGuidId(UserId);
-
-            var userIdInformation = new UserInformation(UserNickname, userId, UserRole);
+            var userIdInformation = new UserInformation(UserNickname, UserId, UserRole);
             var token = CreateAccessToken(userIdInformation);
 
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
@@ -143,11 +126,9 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
 
         protected async Task<int> MakeCourse()
         {
-            var courseAdminId = await GetGuidId(CourseAdminId);
-
             var course = Fixture.Build<CourseEntity>()
                 .Without(x => x.Id)
-                .With(x => x.CourseAdminId, courseAdminId)
+                .With(x => x.CourseAdminId, CourseAdminId)
                 .Without(x => x.Exercises)
                 .Without(x => x.DeleteTime)
                 .Create();
@@ -176,9 +157,7 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
 
         protected async Task<(string AccessToken, string RefreshToken)> MakeSession()
         {
-            var userId = await GetGuidId(UserId);
-
-            var userInformation = new UserInformation(UserNickname, userId, "User");
+            var userInformation = new UserInformation(UserNickname, UserId, "User");
 
             var accessToken = CreateAccessToken(userInformation);
             var refreshToken = CreateRefreshToken(userInformation);
@@ -187,7 +166,7 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
             {
                 AccessToken = accessToken,
                 RefreshToken = refreshToken,
-                UserId = userId
+                UserId = UserId
             };
 
             await DbContext.Sessions.AddAsync(session);

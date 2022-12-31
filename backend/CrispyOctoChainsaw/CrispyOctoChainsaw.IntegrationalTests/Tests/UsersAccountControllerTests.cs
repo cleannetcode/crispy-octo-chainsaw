@@ -1,4 +1,5 @@
-﻿using CrispyOctoChainsaw.API.Contracts;
+﻿using CrispyOctoChainsaw.API;
+using CrispyOctoChainsaw.API.Contracts;
 using CrispyOctoChainsaw.IntegrationalTests.MemberData;
 using System.Net;
 using System.Net.Http.Json;
@@ -187,6 +188,48 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
 
             // assert
             response.EnsureSuccessStatusCode();
+        }
+
+        [Fact]
+        public async Task Refreshing_access_token_when_refresh_tokens_not_equals()
+        {
+            // arrange
+            var (accessToken, refreshToken) = await MakeSession();
+            var userInformation = new UserInformation("NewUser", UserId, "User");
+            var anotherRefreshToken = CreateRefreshToken(userInformation);
+
+            var refreshRequest = new TokenRequest
+            {
+                AccessToken = accessToken,
+                RefreshToken = anotherRefreshToken
+            };
+
+            // act
+            var response = await Client.PostAsJsonAsync("api/usersaccount/refreshaccesstoken", refreshRequest);
+
+            // assert
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Refreshing_access_token_when__user_session_not_found()
+        {
+            // arrange
+            var (accessToken, refreshToken) = await MakeSession();
+            var userInformation = new UserInformation("NewUser", Guid.NewGuid(), "User");
+            var anotherRefreshToken = CreateRefreshToken(userInformation);
+
+            var refreshRequest = new TokenRequest
+            {
+                AccessToken = accessToken,
+                RefreshToken = anotherRefreshToken
+            };
+
+            // act
+            var response = await Client.PostAsJsonAsync("api/usersaccount/refreshaccesstoken", refreshRequest);
+
+            // assert
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
     }
 }
