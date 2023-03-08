@@ -2,6 +2,6 @@
 {
     public class FileSettings
     {
-        public string Path { get; set; } = string.Empty;
+        public string DirectoryName { get; set; } = string.Empty;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using CrispyOctoChainsaw.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CrispyOctoChainsaw.API.Contracts
 {

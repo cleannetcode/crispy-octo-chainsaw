@@ -104,14 +104,7 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
                 .Create();
 
             var file = await MakeImage();
-            using var httpContent = new MultipartFormDataContent("sdsvsv");
-            using var fileContent = new ByteArrayContent(file);
-            fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/jpg");
-
-            httpContent.Add(new StringContent(course.Title), "Title");
-            httpContent.Add(new StringContent(course.Description), "Description");
-            httpContent.Add(new StringContent(course.RepositoryName), "RepositoryName");
-            httpContent.Add(fileContent, "image", "TestBanner.jpg");
+            var httpContent = await MakeFormData(course, file);
 
             // act
             var response = await Client.PostAsync("api/cms/courses", httpContent);

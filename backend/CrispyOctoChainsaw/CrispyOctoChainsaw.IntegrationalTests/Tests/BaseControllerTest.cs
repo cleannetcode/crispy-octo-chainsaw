@@ -22,6 +22,7 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
     [Collection("Database collection")]
     public abstract class BaseControllerTest : IAsyncLifetime
     {
+        private Guid _id = Guid.Parse("d4ddeb36-c32c-46fd-8aa1-f0a31d9a6a9b");
         private static readonly string _baseDirectory = AppContext.BaseDirectory;
         private static readonly string _path = Directory.GetParent(_baseDirectory).FullName;
 
@@ -34,7 +35,7 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
                     {
                         service.Configure<FileSettings>(settings =>
                         {
-                            settings.Path = "TestImages";
+                            settings.DirectoryName = "TestImages";
                         });
                     });
 
@@ -77,6 +78,8 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
             var env = app.Services.CreateScope().ServiceProvider.GetRequiredService<IWebHostEnvironment>();
             CleaningPath = Path.Combine(env.ContentRootPath, "TestImages");
         }
+
+        public string ConnectionString { get; set; }
 
         protected HttpClient Client { get; set; }
 
@@ -155,7 +158,7 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
             return exercise.Id;
         }
 
-        protected async Task<(string AccessToken, string RefreshToken)> MakeSession()
+        protected async Task<(string AccessToken, string RefreshToken)> MakeSession(Guid g = default(Guid))
         {
             var userInformation = new UserInformation(UserNickname, UserId, "User");
 
@@ -225,8 +228,6 @@ namespace CrispyOctoChainsaw.IntegrationalTests.Tests
 
             return refreshToken;
         }
-
-        public string ConnectionString { get; set; }
 
         public Task InitializeAsync()
         {

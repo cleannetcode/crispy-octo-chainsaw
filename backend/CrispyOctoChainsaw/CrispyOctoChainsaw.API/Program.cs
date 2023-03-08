@@ -1,4 +1,5 @@
 using CrispyOctoChainsaw.API;
+using CrispyOctoChainsaw.API.ApiServices;
 using CrispyOctoChainsaw.API.Options;
 using CrispyOctoChainsaw.BusinessLogic.Services;
 using CrispyOctoChainsaw.DataAccess.Postgres;
@@ -14,7 +15,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var path = builder.Configuration.GetSection("FileSettings:Path").Value;
+var directoryName = builder.Configuration.GetSection("FileSettings:DirectoryName").Value;
 
 builder.Services.Configure<JWTSecretOptions>(
     builder.Configuration.GetSection(JWTSecretOptions.JWTSecret));
@@ -87,8 +88,8 @@ app.UseAuthorization();
 
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, path)),
-    RequestPath = $"/{path}"
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, directoryName)),
+    RequestPath = $"/{directoryName}"
 });
 
 app.MapControllers();

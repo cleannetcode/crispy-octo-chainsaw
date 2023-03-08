@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using CrispyOctoChainsaw.API.Options;
 using AutoMapper;
+using CrispyOctoChainsaw.API.ApiServices;
 
 namespace CrispyOctoChainsaw.API.Controllers
 {
@@ -119,13 +120,20 @@ namespace CrispyOctoChainsaw.API.Controllers
                 return BadRequest("ImageFile is empty.");
             }
 
-            var bannerName = await SaveImage(createRequest.ImageFile);
+            var pathToDirectory = _env.ContentRootPath + _fileSettings.DirectoryName;
+
+            var imageName = await FileHelper.SaveFile(pathToDirectory, createRequest.ImageFile);
+            if (imageName.IsFailure)
+            {
+                _logger.LogError("{errors}", imageName.Error);
+                return BadRequest(imageName.Error);
+            }
 
             var newCourse = Course.Create(
                 createRequest.Title,
                 createRequest.Description,
                 createRequest.RepositoryName,
-                bannerName,
+                imageName.Value,
                 courseAdminId);
 
             if (newCourse.IsFailure)
@@ -165,13 +173,36 @@ namespace CrispyOctoChainsaw.API.Controllers
                 return BadRequest("ImageFile is empty.");
             }
 
-            var bannerName = await SaveImage(editRequest.ImageFile);
+            var course = await _service.GetById(courseId);
+            if (course.IsFailure)
+            {
+                _logger.LogError("{errors}", course.Error);
+                return BadRequest(course.Error);
+            }
+
+            var pathToDirectory = _env.ContentRootPath + _fileSettings.DirectoryName;
+            var compareResult = FileHelper.CompareFileNames(pathToDirectory, editRequest.ImageFile.FileName);
+            if (compareResult.IsFailure)
+            {
+                _logger.LogError("{errors}", compareResult.Error);
+                return BadRequest(compareResult.Error);
+            }
+
+            var imageName = compareResult.Value
+                ? course.Value.BannerName
+                : await FileHelper.SaveFile(pathToDirectory, editRequest.ImageFile);
+
+            if (imageName.IsFailure)
+            {
+                _logger.LogError("{errors}", imageName.Error);
+                return BadRequest(imageName.Error);
+            }
 
             var editCourse = Course.Create(
                 editRequest.Title,
                 editRequest.Description,
                 editRequest.RepositoryName,
-                bannerName,
+                imageName.Value,
                 courseAdminId);
 
             if (editCourse.IsFailure)
@@ -213,14 +244,14 @@ namespace CrispyOctoChainsaw.API.Controllers
         [NonAction]
         public async Task<string> SaveImage(IFormFile imageFile)
         {
-            var directoryPath = Path.Combine(_env.ContentRootPath, $"{_fileSettings.Path}");
+            var directoryPath = Path.Combine(_env.ContentRootPath, $"{_fileSettings.DirectoryName}");
             if (!Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);
             }
 
             var imageName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
-            var imagePath = Path.Combine(_env.ContentRootPath, $"{_fileSettings.Path}", imageName);
+            var imagePath = Path.Combine(_env.ContentRootPath, $"{_fileSettings.DirectoryName}", imageName);
             using (var fileStream = new FileStream(imagePath, FileMode.Create))
             {
                 await imageFile.CopyToAsync(fileStream);
